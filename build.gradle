@@ -5,9 +5,9 @@ sourceCompatibility = 1.7
 version = '1.0'
 jar {
     manifest {
-        attributes 'Implementation-Title': 'ArgumentParser', 
+        attributes 'Implementation-Title': 'argParser', 
                    'Implementation-Version': version, 
-                   'Main-Class': 'edu.jsu.mcis.ArgumentParser'
+                   'Main-Class': 'edu.jsu.mcis.argParser'
     }
 }
 

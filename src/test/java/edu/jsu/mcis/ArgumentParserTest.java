@@ -6,7 +6,8 @@ import static org.junit.Assert.*;
 public class ArgumentParserTest{
 	@Test 
 	public void testGetNumberOfArguments(){
-		ArgumentParser parser = new ArgumentParser();
+		
+		argParser parser = new argParser();
 		parser.addArgument("length");
 		assertEquals(1,parser.getSize());
 		parser.addArgument("width");
