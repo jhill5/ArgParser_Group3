@@ -1,0 +1,12 @@
+s
+Usage: Java VolumeCalculator length width height 
+VolumeCalculator.Java: error: missing arguments: width, height
+q
+Usage: Java VolumeCalculator length width height 
+VolumeCalculator.Java: error: unrecognised arguments:  color
+l
+Usage: Java VolumeCalculator length width height 
+VolumeCalculator.Java: error: missing arguments: height
+q
+Usage: Java VolumeCalculator length width height 
+VolumeCalculator.Java: error: unrecognised arguments:  1 2 3

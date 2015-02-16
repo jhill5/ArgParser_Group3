@@ -116,7 +116,7 @@ public class argParser {
     }
 
     public static void main(String args[]) {
-        ArgParse p = new ArgParse();
+        ArgParser p = new ArgParser();
         p.getUserInput();
     }
 }
