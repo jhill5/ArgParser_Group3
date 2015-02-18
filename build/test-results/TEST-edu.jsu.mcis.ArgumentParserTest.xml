@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.jsu.mcis.ArgumentParserTest" tests="17" skipped="0" failures="0" errors="0" timestamp="2015-02-16T17:04:20" hostname="Joshua" time="0.048">
+<testsuite name="edu.jsu.mcis.ArgumentParserTest" tests="17" skipped="0" failures="0" errors="0" timestamp="2015-02-18T02:27:17" hostname="JoshHowell-PC" time="0.254">
   <properties/>
-  <testcase name="testGetValue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.012"/>
-  <testcase name="testCheckMissingWidthAndHeight" classname="edu.jsu.mcis.ArgumentParserTest" time="0.027"/>
+  <testcase name="testGetValue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.097"/>
+  <testcase name="testCheckMissingWidthAndHeight" classname="edu.jsu.mcis.ArgumentParserTest" time="0.052"/>
   <testcase name="testIfUserEntersThreeArguments" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testManageInput" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testInvalidMessage" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testUnrecognisedNames" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testUnrecognisedNamesError" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testIfNotEnoughArguments" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testManageInput" classname="edu.jsu.mcis.ArgumentParserTest" time="0.01"/>
+  <testcase name="testInvalidMessage" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testUnrecognisedNames" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testUnrecognisedNamesError" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testIfNotEnoughArguments" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
   <testcase name="testGetNumberOfArguments" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testAddArgument" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testAddArgument" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
   <testcase name="testCheckMissingHeight" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testHelpMessage" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testMissingMessage" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testIfTooManyArguments" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testMissingMessage" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testIfTooManyArguments" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testParser" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testUnrecognisedMessage" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testCheckUnrecognized" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testUnrecognisedMessage" classname="edu.jsu.mcis.ArgumentParserTest" time="0.067"/>
+  <testcase name="testCheckUnrecognized" classname="edu.jsu.mcis.ArgumentParserTest" time="0.003"/>
   <system-out><![CDATA[
 Usage: Java VolumeCalculator length width height 
 VolumeCalculator.Java: error: missing arguments: width, height
