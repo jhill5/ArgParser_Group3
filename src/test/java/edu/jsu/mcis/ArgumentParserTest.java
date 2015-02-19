@@ -24,25 +24,23 @@ public class ArgumentParserTest {
 		p.userInput = "7 5 2 1 2 3";
 		p.parse(p.userInput);
         p.checkUnrecognised();
-        assertEquals(" 1 2 3", p.unrecognisedArguments);
+        assertEquals(" 1 2 3", p.checkUnrecognised());
 	}
 	
 	@Test
 	public void testAddArgument() {
 		ArgumentParser p = new ArgumentParser();
 		p.addArgument("length");
-		assertEquals("length", p.argNames.get(0));
+		assertEquals("length", p.getArgument(0));
 	}
 	
 	@Test
 	public void testGetValue() {
 		ArgumentParser p = new ArgumentParser();
-		p.argNames.add("length");
-		p.argument1 = 7;
-		p.argNames.add("width");
-		p.argument2 = 5;
-		p.argNames.add("height");
-		p.argument3 = 2;
+		p.addArgument("length");
+		p.addArgument("width");
+		p.addArgument("height");
+		p.parse("7 5 2");
 		assertEquals(7, p.getValue("length"));
 		assertEquals(5, p.getValue("width"));
 		assertEquals(2, p.getValue("height"));
@@ -67,7 +65,7 @@ public class ArgumentParserTest {
 		ArgumentParser p = new ArgumentParser();
 		p.userInput = "7 5 2";
 		p.parse(p.userInput);
-		assertEquals(3, p.numArgs.length);
+		assertEquals(3, p.getArgumentNumbers());
 	}
 	
 	@Test
@@ -75,8 +73,7 @@ public class ArgumentParserTest {
 		ArgumentParser p = new ArgumentParser();
 		p.userInput = "7";
 		p.parse(p.userInput);
-		p.checkMissing();
-		assertEquals("width, height", p.missingArguments);
+		assertEquals("width, height", p.checkMissing());
 	}
 	
 	@Test
@@ -84,8 +81,7 @@ public class ArgumentParserTest {
 		ArgumentParser p = new ArgumentParser();
 		p.userInput = "7 5";
 		p.parse(p.userInput);
-		p.checkMissing();
-		assertEquals("height", p.missingArguments);
+		assertEquals("height", p.checkMissing());
 	}
 	
 	@Test
@@ -94,7 +90,7 @@ public class ArgumentParserTest {
 		p.addArgument("length");
 		p.addArgument("width");
 		p.addArgument("height");
-		assertEquals(3, p.argNames.size());
+		assertEquals(3, p.getArgumentNumbers());
 	}
 	
 	@Test
@@ -102,7 +98,7 @@ public class ArgumentParserTest {
 		ArgumentParser p = new ArgumentParser();
 		p.addArgument("length");
 		p.addArgument("width");
-		assertNotEquals(3, p.argNames.size());
+		assertNotEquals(3, p.getArgumentNumbers());
 	}
 	
 	@Test
@@ -112,7 +108,7 @@ public class ArgumentParserTest {
 		p.addArgument("width");
 		p.addArgument("height");
 		p.addArgument("color");
-		assertNotEquals(3, p.argNames.size());
+		assertNotEquals(3, p.getArgumentNumbers());
 	}
 	
 	@Test
@@ -122,8 +118,7 @@ public class ArgumentParserTest {
 		p.addArgument("width");
 		p.addArgument("height");
 		p.addArgument("color");
-		p.checkUnrecognisedNames();
-		assertEquals(" color" , p.unrecognisedArgumentNames);
+		assertEquals(" color" , p.checkUnrecognisedNames());
 	}
 	
 	@Test
@@ -141,18 +136,18 @@ public class ArgumentParserTest {
 	@Test
 	public void testMissingMessage() {
 		ArgumentParser p = new ArgumentParser();
-		assertEquals("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: missing arguments: " + p.missingArguments , p.missingError());
+		assertEquals("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: missing arguments: ", p.missingError());
 	}
 	
 	@Test
 	public void testUnrecognisedMessage() {
 		ArgumentParser p = new ArgumentParser();
-		assertEquals("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unrecognised arguments: " + p.unrecognisedArguments , p.unrecognisedError());
+		assertEquals("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unrecognised arguments: " , p.unrecognisedError());
 	}
 	
 	@Test
 	public void testUnrecognisedNamesError() {
 		ArgumentParser p = new ArgumentParser();
-		assertEquals("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unrecognised arguments: " + p.unrecognisedArgumentNames, p.unrecognisedNamesError());
+		assertEquals("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unrecognised arguments: ", p.unrecognisedNamesError());
 	}
 }
