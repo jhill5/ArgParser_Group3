@@ -1,37 +1,33 @@
-package edu.jsu.mcis;
+package volcalc;
 
-import java.util.*;
+import java.util.ArrayList;
 
-public class ArgumentParser {
+
+class ArgumentParser {
     
-    public String[] numArgs;
     public  int[] intArray;
     public ArrayList<String> argNames = new ArrayList<String>();
     public  int argValue1, argValue2, argValue3;
     public String userInput = "";
-	public List<String> argVals = new ArrayList<String>();
+    public static ArrayList<String> argVals = new ArrayList<String>();
 	
 			
 	
-    
-    /*public String getUserInput() {
-        Scanner in = new Scanner(System.in);
-        System.out.println("Enter three arguments: ");
-        try {
-            userInput = in.nextLine();
-            manageInput();
+    public static void main(String args[]){
+        for(String string : args){
+            argVals.add(string);
         }
-        catch (NumberFormatException | NullPointerException e) {
+        for(int i=0; i <3; i++){
+            System.out.println(argVals.get(i));
         }
-        return userInput;
-    }*/
+    }
 
     
     public void manageInput() {
-        if (userInput.isEmpty()) {
+        if (argVals.get(0) == null) {
             System.out.println(invalidError());
         }
-        else if ("-h".equals(userInput) || "-help".equals(userInput)) {
+        else if ("-h".equals(argVals.get(0)) || "-help".equals(argVals.get(0))) {
             System.out.println(showHelp());
         }
         else
@@ -43,9 +39,9 @@ public class ArgumentParser {
                 System.exit(0);
             }
         
-        if (numArgs.length < 3 || argNames.size() < 3)
+        if (argVals.size() < 3 || argNames.size() < 3)
             checkMissing();
-        else if (numArgs.length > 3)
+        else if (argVals.size() > 3)
             checkUnrecognised();
         else if (argNames.size() > 3)
             checkUnrecognisedNames();
@@ -83,12 +79,12 @@ public class ArgumentParser {
 	
     public String checkMissing() {
         String missingArguments = "";
-        if (numArgs.length == 1 || argNames.size() == 1) {
+        if (argVals.size() == 1 || argNames.size() == 1) {
             missingArguments = "width, height";
             System.out.println(missingError()+missingArguments);
             return missingArguments;
                         }
-        else if (numArgs.length == 2 || argNames.size() == 2){
+        else if (argVals.size() == 2 || argNames.size() == 2){
             missingArguments = "height";
             System.out.println(missingError());
             return missingArguments;
@@ -98,8 +94,8 @@ public class ArgumentParser {
     
     public String checkUnrecognised() {
         String unrecognisedArguments = "";
-        for (int i=3; i<numArgs.length; i++) {
-            unrecognisedArguments += " " + numArgs[i];
+        for (int i=3; i<argVals.size(); i++) {
+            unrecognisedArguments += " " + argVals.get(i);
         }
         System.out.println(unrecognisedError() + unrecognisedArguments);
         return unrecognisedArguments;
@@ -131,5 +127,6 @@ public class ArgumentParser {
 
     public String unrecognisedNamesError() {
         return "\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unrecognised arguments: ";
-    }
+    }   
+    
 }
