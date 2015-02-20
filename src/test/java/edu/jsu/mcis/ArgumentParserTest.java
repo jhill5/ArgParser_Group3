@@ -21,7 +21,6 @@ public class ArgumentParserTest {
 	@Test
 	public void testCheckUnrecognized() {
 		ArgumentParser p = new ArgumentParser();
-		p.userInput = "7 5 2 1 2 3";
 		p.parse(p.userInput);
         p.checkUnrecognised();
         assertEquals(" 1 2 3", p.checkUnrecognised());
@@ -47,13 +46,13 @@ public class ArgumentParserTest {
 		
 	}
 	
-	@Ignore
+	/*@Ignore
 	public void testgetUserInput() {
 		ArgumentParser p = new ArgumentParser();
 		p.getUserInput();
 		p.userInput = "7 5 2";
 		assertEquals("7 5 2", p.userInput);
-	}
+	}*/
 	
 	@Test
 	public void testManageInput() {
@@ -71,8 +70,8 @@ public class ArgumentParserTest {
 	@Test
 	public void testCheckMissingWidthAndHeight() {
 		ArgumentParser p = new ArgumentParser();
-		p.userInput = "7";
-		p.parse(p.userInput);
+		p.addArgument("height");
+		
 		assertEquals("width, height", p.checkMissing());
 	}
 	
