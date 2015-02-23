@@ -1,17 +1,20 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class VolCalc {
+
+	public static ArrayList<String> argumentValues = new ArrayList<>();
+	
 	public static void main(String[] args) {
 		ArgumentParser p = new ArgumentParser();
 		p.addArgument("length");
 		p.addArgument("width");
 		p.addArgument("height");
 		//p.addArgument("color");
-                
-		p.argumentValues.addAll(Arrays.asList(args));
-		p.parse();
+        
+		argumentValues.addAll(Arrays.asList(args));
+		
 		p.manageInput();
-		p.printArguments();
 		
 		float length = p.getValue("length");
 		float width = p.getValue("width");

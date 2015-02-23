@@ -1,53 +1,37 @@
-package edu.jsu.mcis;
+//package edu.jsu.mcis;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 class ArgumentParser {
     
+	VolCalc v = new VolCalc();
     public String[] numArguments;
     public  int[] intArray;
     public ArrayList<String> argumentNames = new ArrayList<>();
     public  int argValue1, argValue2, argValue3;
     public String userInput = "";
-    public ArrayList<String> argumentValues = new ArrayList<>();
-
-    public static void main(String args[]){
-		//
-    }
-	
-	public void printArguments() {
-		System.out.println("Raw Input: ");
-		for(int i=0; i<3; i++) {
-			 System.out.println(argumentValues.get(i));
-        }
-		System.out.println("Parsed into Integers: ");
-		for(int i=0; i<3; i++) {
-			 System.out.println(intArray[i]);
-        }
-		System.out.println("Ready for math: ");
-		 System.out.println(getValue("length"));
-		 System.out.println(getValue("width"));
-		 System.out.println(getValue("height"));
-	}
+    public ArrayList<String> argumentValues = v.argumentValues;
     
     public void manageInput() {
         String invalidArguments = "";
-        if (argumentValues.get(0) == null) {
+        if (argumentValues.size() == 0) {
             System.out.println(invalidErrorI()+invalidArguments+invalidErrorF());
         }
         else if ("-h".equals(argumentValues.get(0)) || "-help".equals(argumentValues.get(0))) {
             System.out.println(showHelp());
+			System.exit(0);
         }
-        else
+        else {
             try {
             parse();
             }
             catch (NumberFormatException e) {
-                //FILL INVALID ARGUMENT STRING
-                System.out.println(invalidErrorI()+invalidArguments+invalidErrorF());
+                checkForInvalidArguments();
                 System.exit(0);
             }
-        
+		}
+		
         if (argumentValues.size() < 3 || argumentNames.size() < 3)
             checkForMissingArguments();
         else if (argumentValues.size()  > 3)
@@ -73,12 +57,7 @@ class ArgumentParser {
         argumentNames.add(s);
         return s;
     }
-    public String getArgument(int n){
-		return argumentNames.get(n);
-	}
-	public int getArgumentNumbers(){
-		return intArray.length;
-	}
+    
     public int getValue(String s) {
         if (s.equals(argumentNames.get(0)))
             return argValue1;
@@ -95,10 +74,10 @@ class ArgumentParser {
             missingArguments = "width, height";
             System.out.println(missingError()+missingArguments);
             return missingArguments;
-                        }
-        else if (argumentValues.size()  == 2 || argumentNames.size() == 2){
+		}
+        else if (argumentValues.size()  == 2 || argumentNames.size() == 2) {
             missingArguments = "height";
-            System.out.println(missingError());
+            System.out.println(missingError()+missingArguments);
             return missingArguments;
         }
         return null;
@@ -121,6 +100,20 @@ class ArgumentParser {
         System.out.println(unrecognisedNamesError() + unrecognisedArgumentNames);
         return unrecognisedArgumentNames;
     }
+	
+	public String checkForInvalidArguments() {
+		String invalidArguments = "";
+         for (int i=0; i<argumentValues.size(); i++) {
+			 try {
+				Integer.parseInt(argumentValues.get(i));
+			}
+			catch( Exception e ) {
+				invalidArguments += " " + argumentValues.get(i);
+			}
+        }
+		System.out.println(invalidErrorI()+invalidArguments+invalidErrorF());
+		return invalidArguments;
+	}
     
     public String showHelp() {
         return "\nUsage: Java VolumeCalculator length width height\nCalculate the volume of a box.\n\nPositional arguments:\nlength: the length of the box\nwidth: the width of the box\nheight: the height of the box";
@@ -135,11 +128,11 @@ class ArgumentParser {
     }
     
     public String invalidErrorI() {
-        return "Usage: Java VolumeCalculator length width height\nVolumeCalculator.Java: error: argument width: invalid float value: ";
+        return "\nUsage: Java VolumeCalculator length width height\nVolumeCalculator.Java: error: argument width: invalid float value: ";
     }
     
     public String invalidErrorF() {
-        return "\n The following datatypes should be supported: int, float, boolean, and String, which is the default value if type is left unspecified.";
+        return "\nThe following datatypes should be supported: int, float, boolean, and String, which is the default value if type is left unspecified.";
     }
     
     public String unrecognisedNamesError() {
