@@ -1,9 +1,9 @@
-//package edu.jsu.mcis;
-
+package edu.jsu.mcis;
+import edu.jsu.mcis.VolCalc;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-class ArgumentParser {
+public class ArgumentParser {
     
 	VolCalc v = new VolCalc();
     public String[] numArguments;
@@ -12,6 +12,29 @@ class ArgumentParser {
     public  int argValue1, argValue2, argValue3;
     public String userInput = "";
     public ArrayList<String> argumentValues = v.argumentValues;
+    
+    
+    
+    
+    
+     public String addArgument(String s) {
+        argumentNames.add(s);
+        return s;
+    }
+    
+    
+    
+    public int[] parse(String s) {
+        
+        intArray = new int[argumentValues.size()];
+        for (int i=0; i<argumentValues.size(); i++) {
+            intArray[i] = Integer.parseInt(argumentValues.get(i));
+            System.out.println(intArray);
+        }
+        return intArray; 
+        
+    }
+    
     
     public void manageInput() {
         String invalidArguments = "";
@@ -24,7 +47,7 @@ class ArgumentParser {
         }
         else {
             try {
-            parse();
+            parse(invalidArguments);
             }
             catch (NumberFormatException e) {
                 checkForInvalidArguments();
@@ -45,18 +68,10 @@ class ArgumentParser {
         }
     }
     
-    public int[] parse() {
-        intArray = new int[argumentValues.size()];
-        for (int i=0; i<argumentValues.size(); i++) {
-            intArray[i] = Integer.parseInt(argumentValues.get(i));
-        }
-        return intArray;
-    }
+   
     
-    public String addArgument(String s) {
-        argumentNames.add(s);
-        return s;
-    }
+    
+   
     
     public int getValue(String s) {
         if (s.equals(argumentNames.get(0)))
@@ -84,12 +99,24 @@ class ArgumentParser {
     }
     
     public String checkForUnrecognisedValues() {
-        String unrecognisedArguments = "";
+        String unrecognisedArguments = " ";
+        /*int count=2;
+	     if(intArray.length > 3){
+        	unrecognisedArguments+= argumentNames.get(3);
+        	System.out.println(unrecognisedError() + unrecognisedArguments);
+        	return unrecognisedArguments;
+        }
+        else
+        	return "nothing";
+        */
+        	
+    	
         for (int i=3; i<argumentValues.size(); i++) {
-            unrecognisedArguments += " " + argumentValues.get(i);
+            unrecognisedArguments +=" " + argumentValues.get(i);
         }
         System.out.println(unrecognisedError() + unrecognisedArguments);
         return unrecognisedArguments;
+       
     }
     
     public String checkForUnrecognisedArguments() {
@@ -114,7 +141,12 @@ class ArgumentParser {
 		System.out.println(invalidErrorI()+invalidArguments+invalidErrorF());
 		return invalidArguments;
 	}
-    
+	
+	public int getArgumentNumbers(){
+		return argumentNames.size();	
+	}
+	
+
     public String showHelp() {
         return "\nUsage: Java VolumeCalculator length width height\nCalculate the volume of a box.\n\nPositional arguments:\nlength: the length of the box\nwidth: the width of the box\nheight: the height of the box";
     }
