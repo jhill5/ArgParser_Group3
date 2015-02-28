@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>VolCalc.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ArgParser_Group3</a> &gt; <a href="index.source.html" class="el_package">edu.jsu.mcis</a> &gt; <span class="el_source">VolCalc.java</span></div><h1>VolCalc.java</h1><pre class="source lang-java linenums">package edu.jsu.mcis;
+//import edu.jsu.mcis.ArgumentParser;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+<span class="fc" id="L6">public class VolCalc {</span>
+
+<span class="fc" id="L8">	public static ArrayList&lt;String&gt; argumentValues = new ArrayList&lt;&gt;();</span>
+	
+	public static void main(String[] args) {
+<span class="nc" id="L11">		ArgumentParser p = new ArgumentParser();</span>
+<span class="nc" id="L12">		p.addArgument(&quot;length&quot;);</span>
+<span class="nc" id="L13">		p.addArgument(&quot;width&quot;);</span>
+<span class="nc" id="L14">		p.addArgument(&quot;height&quot;);</span>
+		//p.addArgument(&quot;color&quot;);
+		//p.argumentValues.add(&quot;7 5 2&quot;);
+        
+<span class="nc" id="L18">		argumentValues.addAll(Arrays.asList(args));</span>
+		
+<span class="nc" id="L20">		p.manageInput();</span>
+		
+<span class="nc" id="L22">		float length = p.getValue(&quot;length&quot;);</span>
+<span class="nc" id="L23">		float width = p.getValue(&quot;width&quot;);</span>
+<span class="nc" id="L24">		float height = p.getValue(&quot;height&quot;);</span>
+
+<span class="nc" id="L26">		float volume = length * width * height;</span>
+<span class="nc" id="L27">		System.out.println(&quot;The volume is &quot; + volume);</span>
+<span class="nc" id="L28">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

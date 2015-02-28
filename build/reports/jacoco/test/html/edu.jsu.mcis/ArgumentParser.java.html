@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ArgumentParser.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ArgParser_Group3</a> &gt; <a href="index.source.html" class="el_package">edu.jsu.mcis</a> &gt; <span class="el_source">ArgumentParser.java</span></div><h1>ArgumentParser.java</h1><pre class="source lang-java linenums">package edu.jsu.mcis;
+import edu.jsu.mcis.VolCalc;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+<span class="fc" id="L6">public class ArgumentParser {</span>
+    
+<span class="fc" id="L8">	VolCalc v = new VolCalc();</span>
+    public String[] numArguments;
+    public  int[] intArray;
+<span class="fc" id="L11">    public ArrayList&lt;String&gt; argumentNames = new ArrayList&lt;&gt;();</span>
+    public  int argValue1, argValue2, argValue3;
+<span class="fc" id="L13">    public String userInput = &quot;&quot;;</span>
+<span class="fc" id="L14">    public ArrayList&lt;String&gt; argumentValues = v.argumentValues;</span>
+    
+    
+    
+    
+    
+     public String addArgument(String s) {
+<span class="fc" id="L21">        argumentNames.add(s);</span>
+<span class="fc" id="L22">        return s;</span>
+    }
+    
+    
+    
+    public int[] parse(String s) {
+        
+<span class="fc" id="L29">        intArray = new int[argumentValues.size()];</span>
+<span class="fc bfc" id="L30" title="All 2 branches covered.">        for (int i=0; i&lt;argumentValues.size(); i++) {</span>
+<span class="fc" id="L31">            intArray[i] = Integer.parseInt(argumentValues.get(i));</span>
+<span class="fc" id="L32">            System.out.println(intArray);</span>
+        }
+<span class="fc" id="L34">        return intArray; </span>
+        
+    }
+    
+    
+    public void manageInput() {
+<span class="fc" id="L40">        String invalidArguments = &quot;&quot;;</span>
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        if (argumentValues.size() == 0) {</span>
+<span class="nc" id="L42">            System.out.println(invalidErrorI()+invalidArguments+invalidErrorF());</span>
+        }
+<span class="pc bpc" id="L44" title="2 of 4 branches missed.">        else if (&quot;-h&quot;.equals(argumentValues.get(0)) || &quot;-help&quot;.equals(argumentValues.get(0))) {</span>
+<span class="nc" id="L45">            System.out.println(showHelp());</span>
+<span class="nc" id="L46">			System.exit(0);</span>
+        }
+        else {
+            try {
+<span class="fc" id="L50">            parse(invalidArguments);</span>
+            }
+<span class="nc" id="L52">            catch (NumberFormatException e) {</span>
+<span class="nc" id="L53">                checkForInvalidArguments();</span>
+<span class="nc" id="L54">                System.exit(0);</span>
+<span class="fc" id="L55">            }</span>
+		}
+		
+<span class="pc bpc" id="L58" title="1 of 4 branches missed.">        if (argumentValues.size() &lt; 3 || argumentNames.size() &lt; 3)</span>
+<span class="fc" id="L59">            checkForMissingArguments();</span>
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        else if (argumentValues.size()  &gt; 3)</span>
+<span class="nc" id="L61">            checkForUnrecognisedValues();</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">        else if (argumentNames.size() &gt; 3)</span>
+<span class="nc" id="L63">            checkForUnrecognisedArguments();</span>
+        else {
+<span class="fc" id="L65">            argValue1 = intArray[0];</span>
+<span class="fc" id="L66">            argValue2 = intArray[1];</span>
+<span class="fc" id="L67">            argValue3 = intArray[2];</span>
+        }
+<span class="fc" id="L69">    }</span>
+    
+   
+    
+    
+   
+    
+    public int getValue(String s) {
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        if (s.equals(argumentNames.get(0)))</span>
+<span class="fc" id="L78">            return argValue1;</span>
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        else if (s.equals(argumentNames.get(1)))</span>
+<span class="fc" id="L80">            return argValue2;</span>
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">        else if (s.equals(argumentNames.get(2)))</span>
+<span class="fc" id="L82">            return argValue3;</span>
+<span class="nc" id="L83">        return 0;</span>
+    }
+ 
+    public String checkForMissingArguments() {
+<span class="fc" id="L87">        String missingArguments = &quot;&quot;;</span>
+<span class="pc bpc" id="L88" title="1 of 4 branches missed.">        if (argumentValues.size()  == 1 || argumentNames.size() == 1) {</span>
+<span class="fc" id="L89">            missingArguments = &quot;width, height&quot;;</span>
+<span class="fc" id="L90">            System.out.println(missingError()+missingArguments);</span>
+<span class="fc" id="L91">            return missingArguments;</span>
+		}
+<span class="pc bpc" id="L93" title="1 of 4 branches missed.">        else if (argumentValues.size()  == 2 || argumentNames.size() == 2) {</span>
+<span class="fc" id="L94">            missingArguments = &quot;height&quot;;</span>
+<span class="fc" id="L95">            System.out.println(missingError()+missingArguments);</span>
+<span class="fc" id="L96">            return missingArguments;</span>
+        }
+<span class="nc" id="L98">        return null;</span>
+    }
+    
+    public String checkForUnrecognisedValues() {
+<span class="nc" id="L102">        String unrecognisedArguments = &quot; &quot;;</span>
+        /*int count=2;
+	     if(intArray.length &gt; 3){
+        	unrecognisedArguments+= argumentNames.get(3);
+        	System.out.println(unrecognisedError() + unrecognisedArguments);
+        	return unrecognisedArguments;
+        }
+        else
+        	return &quot;nothing&quot;;
+        */
+        	
+    	
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        for (int i=3; i&lt;argumentValues.size(); i++) {</span>
+<span class="nc" id="L115">            unrecognisedArguments +=&quot; &quot; + argumentValues.get(i);</span>
+        }
+<span class="nc" id="L117">        System.out.println(unrecognisedError() + unrecognisedArguments);</span>
+<span class="nc" id="L118">        return unrecognisedArguments;</span>
+       
+    }
+    
+    public String checkForUnrecognisedArguments() {
+<span class="fc" id="L123">        String unrecognisedArgumentNames = &quot;&quot;;</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">        for (int i=3; i&lt;argumentNames.size(); i++) {</span>
+<span class="fc" id="L125">            unrecognisedArgumentNames += &quot; &quot; + argumentNames.get(i);</span>
+        }
+<span class="fc" id="L127">        System.out.println(unrecognisedNamesError() + unrecognisedArgumentNames);</span>
+<span class="fc" id="L128">        return unrecognisedArgumentNames;</span>
+    }
+	
+	public String checkForInvalidArguments() {
+<span class="fc" id="L132">		String invalidArguments = &quot;&quot;;</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">         for (int i=0; i&lt;argumentValues.size(); i++) {</span>
+			 try {
+<span class="fc" id="L135">				Integer.parseInt(argumentValues.get(i));</span>
+			}
+<span class="fc" id="L137">			catch( Exception e ) {</span>
+<span class="fc" id="L138">				invalidArguments += &quot; &quot; + argumentValues.get(i);</span>
+<span class="fc" id="L139">			}</span>
+        }
+<span class="fc" id="L141">		System.out.println(invalidErrorI()+invalidArguments+invalidErrorF());</span>
+<span class="fc" id="L142">		return invalidArguments;</span>
+	}
+	
+	public int getArgumentNumbers(){
+<span class="fc" id="L146">		return argumentNames.size();	</span>
+	}
+	
+
+    public String showHelp() {
+<span class="fc" id="L151">        return &quot;\nUsage: Java VolumeCalculator length width height\nCalculate the volume of a box.\n\nPositional arguments:\nlength: the length of the box\nwidth: the width of the box\nheight: the height of the box&quot;;</span>
+    }
+    
+    public String missingError() {
+<span class="fc" id="L155">        return &quot;\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: missing arguments: &quot;;</span>
+    }
+    
+    public String unrecognisedError() {
+<span class="fc" id="L159">        return &quot;\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unrecognised arguments: &quot;;</span>
+    }
+    
+    public String invalidErrorI() {
+<span class="fc" id="L163">        return &quot;\nUsage: Java VolumeCalculator length width height\nVolumeCalculator.Java: error: argument width: invalid float value: &quot;;</span>
+    }
+    
+    public String invalidErrorF() {
+<span class="fc" id="L167">        return &quot;\nThe following datatypes should be supported: int, float, boolean, and String, which is the default value if type is left unspecified.&quot;;</span>
+    }
+    
+    public String unrecognisedNamesError() {
+<span class="fc" id="L171">        return &quot;\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unrecognised arguments: &quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

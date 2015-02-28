@@ -1,4 +1,5 @@
 package edu.jsu.mcis;
+import edu.jsu.mcis.ArgumentParser;
 
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -21,16 +22,22 @@ public class ArgumentParserTest {
 	@Test
 	public void testCheckUnrecognized() {
 		ArgumentParser p = new ArgumentParser();
-		p.parse(p.userInput);
-        p.checkUnrecognised();
-        assertEquals(" 1 2 3", p.checkUnrecognised());
+		p.addArgument("length");
+		p.addArgument("width");
+		p.addArgument("height");
+		p.addArgument("idk");
+		p.argumentValues.add("2 4 6 4");
+		p.manageInput();
+		assertEquals("4", p.checkForUnrecognisedValues());
+	
+        //assertEquals(" 1 2 3", p.checkForUnrecognisedValues());
 	}
 	
 	@Test
 	public void testAddArgument() {
 		ArgumentParser p = new ArgumentParser();
 		p.addArgument("length");
-		assertEquals("length", p.getArgument(0));
+		assertEquals("length", p.addArgument("length"));
 	}
 	
 	@Test
@@ -39,21 +46,17 @@ public class ArgumentParserTest {
 		p.addArgument("length");
 		p.addArgument("width");
 		p.addArgument("height");
-		p.parse("7 5 2");
+		p.argumentValues.add("7");
+		p.argumentValues.add("5");
+		p.argumentValues.add("2");
+		p.manageInput();
 		assertEquals(7, p.getValue("length"));
 		assertEquals(5, p.getValue("width"));
 		assertEquals(2, p.getValue("height"));
 		
 	}
 	
-	/*@Ignore
-	public void testgetUserInput() {
-		ArgumentParser p = new ArgumentParser();
-		p.getUserInput();
-		p.userInput = "7 5 2";
-		assertEquals("7 5 2", p.userInput);
-	}*/
-	
+
 	@Test
 	public void testManageInput() {
 		assertTrue(true);
@@ -62,8 +65,9 @@ public class ArgumentParserTest {
 	@Test
 	public void testGetNumberOfArguments() {
 		ArgumentParser p = new ArgumentParser();
-		p.userInput = "7 5 2";
-		p.parse(p.userInput);
+		p.addArgument("7");
+		p.addArgument("5");
+		p.addArgument("2");
 		assertEquals(3, p.getArgumentNumbers());
 	}
 	
@@ -72,15 +76,15 @@ public class ArgumentParserTest {
 		ArgumentParser p = new ArgumentParser();
 		p.addArgument("height");
 		
-		assertEquals("width, height", p.checkMissing());
+		assertEquals("width, height", p.checkForMissingArguments());
 	}
 	
 	@Test
 	public void testCheckMissingHeight() {
 		ArgumentParser p = new ArgumentParser();
-		p.userInput = "7 5";
-		p.parse(p.userInput);
-		assertEquals("height", p.checkMissing());
+		p.addArgument("6");
+		p.addArgument("7");
+		assertEquals("height", p.checkForMissingArguments());
 	}
 	
 	@Test
@@ -117,7 +121,7 @@ public class ArgumentParserTest {
 		p.addArgument("width");
 		p.addArgument("height");
 		p.addArgument("color");
-		assertEquals(" color" , p.checkUnrecognisedNames());
+		assertEquals(" color" , p.checkForUnrecognisedArguments());
 	}
 	
 	@Test
@@ -129,7 +133,7 @@ public class ArgumentParserTest {
 	@Test
 	public void testInvalidMessage() {
 		ArgumentParser p = new ArgumentParser();
-		assertEquals("Usage: Java VolumeCalculator length width height\nVolumeCalculator.Java: error: argument width: invalid float value: " + p.userInput + " " + "\nThe following datatypes should be supported: int, float, boolean, and String, which is the default value if type is left unspecified." , p.invalidError());
+		assertEquals("\nUsage: Java VolumeCalculator length width height\nVolumeCalculator.Java: error: argument width: invalid float value: " , p.invalidErrorI());
 	}
 	
 	@Test

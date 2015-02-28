@@ -1,12 +1,19 @@
-s
-Usage: Java VolumeCalculator length width height 
-VolumeCalculator.Java: error: missing arguments: width, height
-q
-Usage: Java VolumeCalculator length width height 
-VolumeCalculator.Java: error: unrecognised arguments:  color
-l
-Usage: Java VolumeCalculator length width height 
-VolumeCalculator.Java: error: missing arguments: height
-q
-Usage: Java VolumeCalculator length width height 
-VolumeCalculator.Java: error: unrecognised arguments:  1 2 3
+[I@5c707aca
+[I@5c707aca
+[I@5c707aca
+
+2Usage: Java VolumeCalculator length width height 
+?VolumeCalculator.Java: error: missing arguments: width, height
+
+2Usage: Java VolumeCalculator length width height 
+=VolumeCalculator.Java: error: unrecognised arguments:  color
+
+2Usage: Java VolumeCalculator length width height 
+8VolumeCalculator.Java: error: missing arguments: height
+[I@758f1c22
+[I@758f1c22
+[I@758f1c22
+
+1Usage: Java VolumeCalculator length width height
+LVolumeCalculator.Java: error: argument width: invalid float value:  2 4 6 4
+†The following datatypes should be supported: int, float, boolean, and String, which is the default value if type is left unspecified.
