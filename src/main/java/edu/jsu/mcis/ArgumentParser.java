@@ -1,16 +1,15 @@
-package edu.jsu.mcis;
+//package edu.jsu.mcis;
 
 //import edu.jsu.mcis.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.io.*;
 
 class ArgumentParser {
     
-	//VolCalc v = new VolCalc(); //comment for tests
     public List<String> argumentNames = new ArrayList<>();
-    //public ArrayList<String> argumentValues = v.argumentValues; //comment for tests
 	public List<String> argumentValues = new ArrayList<>();
 	public enum Datatype {STRING, DOUBLE, FLOAT, INT, BOOLEAN};
 	public  int argValue1, argValue2, argValue3;
@@ -50,12 +49,12 @@ class ArgumentParser {
 		for (int i=0; i<argumentValues.size(); i++) {
 			if (argumentValues.get(i).contains("--") && !argumentValues.get(i).contains("help")  && !argumentValues.get(i).contains("type") ) {
 				name = argumentValues.get(i).replace("--", "");
-				System.out.println("Optional Argument: " + name); //DEMO
+				//System.out.println("Optional Argument: " + name); //DEMO
 				OptionalArgument name = new OptionalArgument();
 				name.value = argumentValues.get(i+1);
-				System.out.println("Optional Argument Value: " + name.value); //DEMO
+				//System.out.println("Optional Argument Value: " + name.value); //DEMO
 				name.shortName = ("-"+argumentValues.get(i).charAt(2));
-				System.out.println("Optional Argument Short Name: " + name.shortName); //DEMO
+				//System.out.println("Optional Argument Short Name: " + name.shortName); //DEMO
                     try {
                         Integer.parseInt(name.value);
                         name.type = Datatype.INT;
@@ -72,7 +71,7 @@ class ArgumentParser {
                                 }
                             }  
                         } 
-				System.out.println("Optional Argument Data Type: " + name.type); //DEMO
+				//System.out.println("Optional Argument Data Type: " + name.type); //DEMO
 				argumentValues.remove(i);
 				argumentValues.remove(i);
 			}

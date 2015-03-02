@@ -1,4 +1,4 @@
-package edu.jsu.mcis;
+//package edu.jsu.mcis;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -14,7 +14,7 @@ public class VolCalc {
 		p.addArgument("height");
 		//p.addArgument("color");
         
-		argumentValues.addAll(Arrays.asList(args));
+		p.argumentValues.addAll(Arrays.asList(args));
 		
 		p.manageInput();
 		
