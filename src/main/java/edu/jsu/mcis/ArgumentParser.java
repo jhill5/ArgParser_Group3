@@ -1,53 +1,96 @@
 package edu.jsu.mcis;
-import edu.jsu.mcis.VolCalc;
+
+//import edu.jsu.mcis.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-public class ArgumentParser {
+class ArgumentParser {
     
-	VolCalc v = new VolCalc();
-    public String[] numArguments;
-    public  int[] intArray;
-    public ArrayList<String> argumentNames = new ArrayList<>();
-    public  int argValue1, argValue2, argValue3;
-    public String userInput = "";
-    public ArrayList<String> argumentValues = v.argumentValues;
-    
-    
-    
-    
-    
-     public String addArgument(String s) {
-        argumentNames.add(s);
-        return s;
-    }
-    
-    
-    
-    public int[] parse(String s) {
-        
-        intArray = new int[argumentValues.size()];
-        for (int i=0; i<argumentValues.size(); i++) {
-            intArray[i] = Integer.parseInt(argumentValues.get(i));
-            System.out.println(intArray);
+	//VolCalc v = new VolCalc(); //comment for tests
+    public List<String> argumentNames = new ArrayList<>();
+    //public ArrayList<String> argumentValues = v.argumentValues; //comment for tests
+	public List<String> argumentValues = new ArrayList<>();
+	public enum Datatype {STRING, DOUBLE, FLOAT, INT, BOOLEAN};
+	public  int argValue1, argValue2, argValue3;
+	public  int[] intArray;
+	public String type = "";
+	public String name = "";
+	public String userInput = "";
+
+    public void demo() {
+        checkForOptionalArguments();
+        checkForType();
+		System.out.println("Type: " + type);
+        for (String argumentValue : argumentValues) {
+            userInput += (argumentValue + " ");
         }
-        return intArray; 
-        
+        for (String argumentName : argumentNames) {
+            System.out.println("Positional Argument: " + argumentName);
+        }
+		//System.out.println("Items to Parse: " + userInput);
+        for (String argumentValue : argumentValues) {
+            System.out.println("Positional Argument Value: " + argumentValue);
+        }
     }
-    
-    
+
+	public String checkForType() {
+		for (int i=0; i<argumentValues.size(); i++) {
+			if (argumentValues.get(i).contains("--type")) {
+				type = argumentValues.get(i+1);
+				argumentValues.remove(i);
+				argumentValues.remove(i);
+			}
+		}
+		return type;
+	}
+
+	public void checkForOptionalArguments() {
+		for (int i=0; i<argumentValues.size(); i++) {
+			if (argumentValues.get(i).contains("--") && !argumentValues.get(i).contains("help")  && !argumentValues.get(i).contains("type") ) {
+				name = argumentValues.get(i).replace("--", "");
+				System.out.println("Optional Argument: " + name); //DEMO
+				OptionalArgument name = new OptionalArgument();
+				name.value = argumentValues.get(i+1);
+				System.out.println("Optional Argument Value: " + name.value); //DEMO
+				name.shortName = ("-"+argumentValues.get(i).charAt(2));
+				System.out.println("Optional Argument Short Name: " + name.shortName); //DEMO
+                    try {
+                        Integer.parseInt(name.value);
+                        name.type = Datatype.INT;
+                    } catch (Exception e) {
+                        try {
+                            Float.parseFloat(name.value);
+                            name.type = Datatype.FLOAT;
+                        } catch (Exception f) {
+                            try {
+                                Double.parseDouble(name.value);
+                                name.type = Datatype.DOUBLE;
+                            } catch (Exception g) {
+                                    name.type = Datatype.STRING;
+                                }
+                            }  
+                        } 
+				System.out.println("Optional Argument Data Type: " + name.type); //DEMO
+				argumentValues.remove(i);
+				argumentValues.remove(i);
+			}
+		}
+	}
+	
     public void manageInput() {
         String invalidArguments = "";
         if (argumentValues.size() == 0) {
             System.out.println(invalidErrorI()+invalidArguments+invalidErrorF());
         }
-        else if ("-h".equals(argumentValues.get(0)) || "-help".equals(argumentValues.get(0))) {
-            System.out.println(showHelp());
-			System.exit(0);
-        }
+		else if (userInput.contains("-h") || userInput.contains("--help")) {
+				System.out.println(showHelp());
+				System.exit(0);
+		}
         else {
             try {
-            parse(invalidArguments);
+            parse();
             }
             catch (NumberFormatException e) {
                 checkForInvalidArguments();
@@ -68,11 +111,19 @@ public class ArgumentParser {
         }
     }
     
-   
+    public int[] parse() {
+        intArray = new int[argumentValues.size()];
+        for (int i=0; i<argumentValues.size(); i++) {
+            intArray[i] = Integer.parseInt(argumentValues.get(i));
+        }
+        return intArray;
+    }
     
-    
-   
-    
+    public String addArgument(String s) {
+        argumentNames.add(s);
+        return s;
+    }
+	
     public int getValue(String s) {
         if (s.equals(argumentNames.get(0)))
             return argValue1;
@@ -99,24 +150,12 @@ public class ArgumentParser {
     }
     
     public String checkForUnrecognisedValues() {
-        String unrecognisedArguments = " ";
-        /*int count=2;
-	     if(intArray.length > 3){
-        	unrecognisedArguments+= argumentNames.get(3);
-        	System.out.println(unrecognisedError() + unrecognisedArguments);
-        	return unrecognisedArguments;
-        }
-        else
-        	return "nothing";
-        */
-        	
-    	
+        String unrecognisedArguments = "";
         for (int i=3; i<argumentValues.size(); i++) {
-            unrecognisedArguments +=" " + argumentValues.get(i);
+            unrecognisedArguments += " " + argumentValues.get(i);
         }
         System.out.println(unrecognisedError() + unrecognisedArguments);
         return unrecognisedArguments;
-       
     }
     
     public String checkForUnrecognisedArguments() {
@@ -124,7 +163,7 @@ public class ArgumentParser {
         for (int i=3; i<argumentNames.size(); i++) {
             unrecognisedArgumentNames += " " + argumentNames.get(i);
         }
-        System.out.println(unrecognisedNamesError() + unrecognisedArgumentNames);
+        System.out.println(unrecognisedError() + unrecognisedArgumentNames);
         return unrecognisedArgumentNames;
     }
 	
@@ -134,19 +173,14 @@ public class ArgumentParser {
 			 try {
 				Integer.parseInt(argumentValues.get(i));
 			}
-			catch( Exception e ) {
+			catch(Exception e ) {
 				invalidArguments += " " + argumentValues.get(i);
 			}
         }
-		System.out.println(invalidErrorI()+invalidArguments+invalidErrorF());
+		System.out.println(invalidErrorI()+invalidArguments+invalidErrorF()); 
 		return invalidArguments;
 	}
-	
-	public int getArgumentNumbers(){
-		return argumentNames.size();	
-	}
-	
-
+    
     public String showHelp() {
         return "\nUsage: Java VolumeCalculator length width height\nCalculate the volume of a box.\n\nPositional arguments:\nlength: the length of the box\nwidth: the width of the box\nheight: the height of the box";
     }
@@ -166,8 +200,21 @@ public class ArgumentParser {
     public String invalidErrorF() {
         return "\nThe following datatypes should be supported: int, float, boolean, and String, which is the default value if type is left unspecified.";
     }
+
+	public class PositionalArgument {
+        public String value = "";
+		public String info = "";
+        public Datatype type;
+    }
     
-    public String unrecognisedNamesError() {
-        return "\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unrecognised arguments: ";
+    public class OptionalArgument {
+        public String shortName = "";
+        public String value = "";
+		public Datatype type;
+		public String helpInfo = "";
+    }
+	
+    public class EmptySpecifiedArgumentException extends RuntimeException {
+        
     }
 }

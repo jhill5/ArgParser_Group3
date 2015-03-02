@@ -1,90 +1,70 @@
 package edu.jsu.mcis;
+
 import edu.jsu.mcis.ArgumentParser;
 
 import org.junit.*;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class ArgumentParserTest {
 
 	@Test
 	public void testParser() {
-		String s = "7 5 2";
-        String[] numArgs = s.split(" ");
-        int[] intArray = new int[numArgs.length];
-        for (int i=0; i<numArgs.length; i++) {
-            intArray[i] = Integer.parseInt(numArgs[i].trim());
-        }
-		assertEquals(7, intArray[0]);
-		assertEquals(5, intArray[1]);
-		assertEquals(2, intArray[2]);
+		ArgumentParser p = new ArgumentParser();
+		p.argumentValues = Arrays.asList("7", "5", "2");
+        p.parse();
+		assertEquals(7, p.intArray[0]);
+		assertEquals(5, p.intArray[1]);
+		assertEquals(2, p.intArray[2]);
 	}
 	
 	@Test
 	public void testCheckUnrecognized() {
 		ArgumentParser p = new ArgumentParser();
-		p.addArgument("length");
-		p.addArgument("width");
-		p.addArgument("height");
-		p.addArgument("idk");
-		p.argumentValues.add("2 4 6 4");
-		p.manageInput();
-		assertEquals("4", p.checkForUnrecognisedValues());
-	
-        //assertEquals(" 1 2 3", p.checkForUnrecognisedValues());
+		p.argumentValues = Arrays.asList("7", "5", "2", "1", "2", "3");
+		p.parse();
+        p.checkUnrecognised();
+        assertEquals(" 1 2 3", p.unrecognisedArguments);
 	}
 	
 	@Test
 	public void testAddArgument() {
 		ArgumentParser p = new ArgumentParser();
 		p.addArgument("length");
-		assertEquals("length", p.addArgument("length"));
+		assertEquals("length", p.argumentNames.get(0));
 	}
 	
 	@Test
 	public void testGetValue() {
 		ArgumentParser p = new ArgumentParser();
 		p.addArgument("length");
+		p.argvalue1 = 7;
 		p.addArgument("width");
+		p.argvalue2 = 5;
 		p.addArgument("height");
-		p.argumentValues.add("7");
-		p.argumentValues.add("5");
-		p.argumentValues.add("2");
-		p.manageInput();
+		p.argvalue3 = 2;
 		assertEquals(7, p.getValue("length"));
 		assertEquals(5, p.getValue("width"));
 		assertEquals(2, p.getValue("height"));
 		
 	}
 	
-
-	@Test
-	public void testManageInput() {
-		assertTrue(true);
-	}
-
-	@Test
-	public void testGetNumberOfArguments() {
-		ArgumentParser p = new ArgumentParser();
-		p.addArgument("7");
-		p.addArgument("5");
-		p.addArgument("2");
-		assertEquals(3, p.getArgumentNumbers());
-	}
-	
 	@Test
 	public void testCheckMissingWidthAndHeight() {
 		ArgumentParser p = new ArgumentParser();
-		p.addArgument("height");
-		
-		assertEquals("width, height", p.checkForMissingArguments());
+		p.argumentValues = Arrays.asList("7");
+		p.checkMissing();
+		assertEquals("width, height", p.missingArguments);
 	}
 	
 	@Test
 	public void testCheckMissingHeight() {
 		ArgumentParser p = new ArgumentParser();
-		p.addArgument("6");
-		p.addArgument("7");
-		assertEquals("height", p.checkForMissingArguments());
+		p.argumentValues = Arrays.asList("7", "5");
+		p.checkMissing();
+		assertEquals("height", p.missingArguments);
 	}
 	
 	@Test
@@ -93,7 +73,7 @@ public class ArgumentParserTest {
 		p.addArgument("length");
 		p.addArgument("width");
 		p.addArgument("height");
-		assertEquals(3, p.getArgumentNumbers());
+		assertEquals(3, p.argumentNames.size());
 	}
 	
 	@Test
@@ -101,7 +81,7 @@ public class ArgumentParserTest {
 		ArgumentParser p = new ArgumentParser();
 		p.addArgument("length");
 		p.addArgument("width");
-		assertNotEquals(3, p.getArgumentNumbers());
+		assert(3 > p.argumentNames.size());
 	}
 	
 	@Test
@@ -111,7 +91,7 @@ public class ArgumentParserTest {
 		p.addArgument("width");
 		p.addArgument("height");
 		p.addArgument("color");
-		assertNotEquals(3, p.getArgumentNumbers());
+		assert(3 < p.argumentNames.size());
 	}
 	
 	@Test
@@ -121,7 +101,14 @@ public class ArgumentParserTest {
 		p.addArgument("width");
 		p.addArgument("height");
 		p.addArgument("color");
-		assertEquals(" color" , p.checkForUnrecognisedArguments());
+		p.checkUnrecognisedNames();
+		assertEquals(" color" , p.unrecognisedArgumentNames);
+	}
+	
+	@Test
+	public void testInvalidArgument() {
+		p.argumentValues = Arrays.asList("7", "cheese", "5", "2");
+		assertEquals("cheese", p.unrecognisedArguments);
 	}
 	
 	@Test
@@ -131,9 +118,15 @@ public class ArgumentParserTest {
 	}
 	
 	@Test
-	public void testInvalidMessage() {
+	public void testInvalidMessage1() {
 		ArgumentParser p = new ArgumentParser();
 		assertEquals("\nUsage: Java VolumeCalculator length width height\nVolumeCalculator.Java: error: argument width: invalid float value: " , p.invalidErrorI());
+	}
+	
+	@Test
+	public void testInvlidMessage2() {
+		ArgumentParser p = new ArgumentParser();
+		assertEquals("\nThe following datatypes should be supported: int, float, boolean, and String, which is the default value if type is left unspecified.", p.invalidErrorF);
 	}
 	
 	@Test
@@ -149,8 +142,55 @@ public class ArgumentParserTest {
 	}
 	
 	@Test
-	public void testUnrecognisedNamesError() {
+	public void testGetOptionalArgument() {
 		ArgumentParser p = new ArgumentParser();
-		assertEquals("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unrecognised arguments: ", p.unrecognisedNamesError());
+		p.argumentValues = Arrays.asList("--color");
+		p.checkForOptionalArguments();
+		assertEquals(p.name , "color");
+	}
+	
+	@Test
+	public void testGetOptionalArgumentValue() {
+		ArgumentParser p = new ArgumentParser();
+		p.argumentValues = Arrays.asList("--color red");
+		p.checkForOptionalArguments();
+		assertEquals("red", p.name.value);
+	}
+	
+	@Test
+	public void testGetOptionalArgumentShortName() {
+		ArgumentParser p = new ArgumentParser();
+		p.argumentValues = Arrays.asList("--color");
+		p.checkForOptionalArguments();
+		assertEquals("-c", p.name.shortName);
+	}
+	
+	@Test
+	public void testGetOptionalArgumentDataType() {
+		ArgumentParser p = new ArgumentParser();
+		p.argumentValues = Arrays.asList("--color red");
+		p.checkForOptionalArguments(ArgumentParser.STRING, p.type.name);
+	}
+	
+	@Test
+	public void testGetType() {
+		ArgumentParser p = new ArgumentParser();
+		p.argumentValues = Arrays.asList("--type sphere");
+		p.checkForType();
+		assertEquals("sphere", p.type);
+	}
+	
+	@Test
+	public void testMixOptionalArgumentsWithPositionalArguments() {
+		ArgumentParser p = new ArgumentParser();
+		p.argumentValues = Arrays.asList("7", "--color", "red", "5", "--gender", "male", "2", "--alive", "true");
+		p.checkForOptionalArguments();
+		p.parse();
+		p.addArgument("length");
+		p.addArgument("width");
+		p.addArgument("height");
+		assertEquals(7, p.getValue("length"));
+		assertEquals(5, p.getValue("width"));
+		assertEquals(2, p.getValue("height"));
 	}
 }
