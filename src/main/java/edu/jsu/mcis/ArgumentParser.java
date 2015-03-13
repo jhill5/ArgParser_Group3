@@ -1,14 +1,13 @@
-//package APR;
+package edu.jsu.mcis;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class ArgumentParser {
 	//VARIABLES
     private HashMap<String, PositionalArgument> positionalArguments = new HashMap<>();
     private HashMap<String, OptionalArgument> optionalArguments = new HashMap<>();
 	private HashMap<String, String> optionalArgumentShortNames = new HashMap<>();//unused
-    private ArrayList<String> userInput = new ArrayList<>();
+    public ArrayList<String> userInput = new ArrayList<>();
 	private enum Datatype {STRING, DOUBLE, FLOAT, INTEGER, BOOLEAN};
     //ADD ARGUMENTS
     public void addPositionalArgument(String name) {
@@ -48,22 +47,22 @@ public class ArgumentParser {
     //GET ARGUMENT VALUES
 	@SuppressWarnings("unchecked")
     public <T> T getPositionalArgument(String name) {  	//NEEDS TO BE GENERIC
-		Object v = 0f;
+		Object v = null;
         PositionalArgument temp = new PositionalArgument(name);
         temp = positionalArguments.get(name);
         if(null != temp.type) switch (temp.type) {
             case "INTEGER":
                 v = Integer.parseInt(temp.value);
-                parsePositionalArgumentInt(name);
+               // parsePositionalArgumentInt(name);
             case "FLOAT":
                 v = Float.parseFloat(temp.value);
-                parsePositionalArgumentFloat(name);
+                //parsePositionalArgumentFloat(name);
             case "DOUBLE":
                 v = Double.parseDouble(temp.value);
-                parsePositionalArgumentDouble(name);
+                //parsePositionalArgumentDouble(name);
             case "BOOLEAN":
                 v = Boolean.parseBoolean(temp.value);
-                parsePositionalArgumentBoolean(name);
+                //parsePositionalArgumentBoolean(name);
             case "STRING":
                 v = temp.value;
         }
@@ -78,23 +77,23 @@ public class ArgumentParser {
         if(null != temp.type) switch (temp.type) {
             case "INTEGER":
                 v = Integer.parseInt(temp.value);
-                parseOptionalArgumentInt(name);
+                //parseOptionalArgumentInt(name);
             case "FLOAT":
                 v = Float.parseFloat(temp.value);
-                parseOptionalArgumentFloat(name);
+                //parseOptionalArgumentFloat(name);
             case "DOUBLE":
                 v = Double.parseDouble(temp.value);
-                parseOptionalArgumentDouble(name);
+                //parseOptionalArgumentDouble(name);
             case "BOOLEAN":
                 v = Boolean.parseBoolean(temp.value);
-                parseOptionalArgumentBoolean(name);
+                //parseOptionalArgumentBoolean(name);
             case "STRING":
                 v = temp.value;
         }
         return (T) v;
     }
 	//POSITIONAL ARGUMENT PARSERS
-	public String parsePositionalArgumentString(String name) {
+	/*public String parsePositionalArgumentString(String name) {
         PositionalArgument temp = new PositionalArgument(name);
         temp = positionalArguments.get(name);
 		return temp.value;
@@ -122,7 +121,7 @@ public class ArgumentParser {
         PositionalArgument temp = new PositionalArgument(name);
         temp = positionalArguments.get(name);
 		return Boolean.parseBoolean(temp.value);
-	}
+	}*/
 	
 	//OPTIONAL ARGUMENT PARSERS
 	public String parseOptionalArgumentString(String name) {
@@ -206,80 +205,6 @@ public class ArgumentParser {
         public unknownSpecifiedArgumentException (String message) {
 			super ("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unknown arguments: ");// + unknownArguments);
         }	
-    }
-	
-    //POSITIONAL ARGUMENT OBJECT
-    public class PositionalArgument {
-        public String name = "";
-        public String value = "";
-        public String info = "";
-        public String type = "";
-		public Datatype dataType;
-        
-        public PositionalArgument (String n) {
-            name = n;
-        }
-        String getName(){
-            return name;
-        }
-        void setValue(String v){
-            value = v;
-        }
-        String getValue(){
-            return value;
-        }
-        void setInfo(String i){
-            info = i;
-        }
-        String getInfo(){
-            return info;
-        }
-        void setDataType(String d) {
-            type = d;
-        }
-        String getDataType() {
-            return type;
-        }
-    }
-    //OPTIONAL ARGUMENT OBJECT
-    public class OptionalArgument {
-        public String name = "";
-        public String shortName = "";
-        public String value = "";
-		public String info = "";
-        public String type = "";
-		public Datatype dataType;
-        
-        public OptionalArgument (String n) {
-            name = n;
-        }
-        String getName(){
-            return name;
-        }
-        void setValue(String v){
-            value = v;
-        }
-        String getValue(){
-            return value;
-        }
-        void setInfo(String i){
-            info = i;
-        }
-        String getInfo(){
-            return info;
-        }
-        void setShortName(String s) {
-            shortName = s;
-        }
-        String getShortName() {
-            return shortName;
-        }
-        void setDataType(String d) {
-            type = d;
-        }
-        String getDataType() {
-            return type;
-        }
     }
 	
 	//TEMPORARY METHOD FOR READING CMD AND EXCEPTION HANDLING

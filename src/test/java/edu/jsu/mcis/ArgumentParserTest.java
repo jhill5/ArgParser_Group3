@@ -18,13 +18,10 @@ public class ArgumentParserTest {
 	}
 	
 	@Test
-	public void testAddArgument() {
-		
-	}
-	
-	@Test
 	public void testGetValue() {
-		
+		p.addPositionalArgument("length");
+		p.addPositionalArgumentValue("length", "7", "INTEGER");
+		assertEquals("7",p.getPositionalArgument("length"));
 		
 	}
 	

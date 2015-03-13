@@ -1,41 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.jsu.mcis.ArgumentParserTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2015-02-26T14:48:13" hostname="christopher-burdettes-MacBook.local" time="0.091">
+<testsuite name="edu.jsu.mcis.ArgumentParserTest" tests="20" skipped="0" failures="0" errors="0" timestamp="2015-03-13T17:44:55" hostname="Joshua" time="0.029">
   <properties/>
-  <testcase name="testGetValue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.063"/>
-  <testcase name="testCheckMissingWidthAndHeight" classname="edu.jsu.mcis.ArgumentParserTest" time="0.002"/>
-  <testcase name="testIfUserEntersThreeArguments" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
-  <testcase name="testManageInput" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testInvalidMessage" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
-  <testcase name="testUnrecognisedNames" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
-  <testcase name="testUnrecognisedNamesError" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testInvalidMessage1" classname="edu.jsu.mcis.ArgumentParserTest" time="0.004"/>
+  <testcase name="testGetOptionalArgument" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetValue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
+  <testcase name="testCheckMissingWidthAndHeight" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testIfUserEntersThreeArguments" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testUnrecognisedNames" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetType" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testMixOptionalArgumentsWithPositionalArguments" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testIfNotEnoughArguments" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testGetNumberOfArguments" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testAddArgument" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
-  <testcase name="testCheckMissingHeight" classname="edu.jsu.mcis.ArgumentParserTest" time="0.003"/>
+  <testcase name="testGetOptionalArgumentValue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testInvlidMessage2" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testCheckMissingHeight" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testInvalidArgument" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testHelpMessage" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testMissingMessage" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testIfTooManyArguments" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testParser" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testIfTooManyArguments" classname="edu.jsu.mcis.ArgumentParserTest" time="0.002"/>
+  <testcase name="testGetOptionalArgumentDataType" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testUnrecognisedMessage" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <system-out><![CDATA[[I@5c707aca
-[I@5c707aca
-[I@5c707aca
-
-Usage: Java VolumeCalculator length width height 
-VolumeCalculator.Java: error: missing arguments: width, height
-
-Usage: Java VolumeCalculator length width height 
-VolumeCalculator.Java: error: unrecognised arguments:  color
-
-Usage: Java VolumeCalculator length width height 
-VolumeCalculator.Java: error: missing arguments: height
-[I@758f1c22
-[I@758f1c22
-[I@758f1c22
-
-Usage: Java VolumeCalculator length width height
-VolumeCalculator.Java: error: argument width: invalid float value:  2 4 6 4
-The following datatypes should be supported: int, float, boolean, and String, which is the default value if type is left unspecified.
-]]></system-out>
+  <testcase name="testCheckUnrecognized" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetOptionalArgumentShortName" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
