@@ -5,17 +5,20 @@ import java.util.HashMap;
 
 public class ArgumentParser {
 	//VARIABLES
-    public HashMap<String, PositionalArgument> positionalArguments = new HashMap<>();
-    public HashMap<String, OptionalArgument> optionalArguments = new HashMap<>();
-    public ArrayList<String> userInput = new ArrayList<>();
+    private HashMap<String, PositionalArgument> positionalArguments = new HashMap<>();
+    private HashMap<String, OptionalArgument> optionalArguments = new HashMap<>();
+	private HashMap<String, String> optionalArgumentShortNames = new HashMap<>();//unused
+    private ArrayList<String> userInput = new ArrayList<>();
 	private enum Datatype {STRING, DOUBLE, FLOAT, INTEGER, BOOLEAN};
     //ADD ARGUMENTS
-    public void addPositionalArgument(String arg) {
-        positionalArguments.put(arg, new PositionalArgument(arg));
+    public void addPositionalArgument(String name) {
+        positionalArguments.put(name, new PositionalArgument(name));
     }
     
-    public void addOptionalArgument(String arg) {
-        optionalArguments.put(arg, new OptionalArgument(arg));
+    public void addOptionalArgument(String name) {
+        optionalArguments.put(name, new OptionalArgument(name));
+		String shortName = "" + name.charAt(0);
+		optionalArgumentShortNames.put(shortName, name);
     }
     //ADD ARGUMENT VALUES AND DATATYPES
     public void addPositionalArgumentValue(String name, String value, String type) {
@@ -43,42 +46,114 @@ public class ArgumentParser {
         return temp.getInfo();
     }
     //GET ARGUMENT VALUES
-    public <T> T getPositionalArgumentValue(String name) {  	//NEEDDS TO BE GENERIC
-		Object n = null;
+	@SuppressWarnings("unchecked")
+    public <T> T getPositionalArgument(String name) {  	//NEEDS TO BE GENERIC
+		Object v = 0f;
         PositionalArgument temp = new PositionalArgument(name);
         temp = positionalArguments.get(name);
         if(null != temp.type) switch (temp.type) {
             case "INTEGER":
-                n = Integer.parseInt(temp.value);
+                v = Integer.parseInt(temp.value);
+                parsePositionalArgumentInt(name);
             case "FLOAT":
-                n = Float.parseFloat(temp.value);
+                v = Float.parseFloat(temp.value);
+                parsePositionalArgumentFloat(name);
             case "DOUBLE":
-                n = Double.parseDouble(temp.value);
+                v = Double.parseDouble(temp.value);
+                parsePositionalArgumentDouble(name);
             case "BOOLEAN":
-                n = Boolean.parseBoolean(temp.value);
+                v = Boolean.parseBoolean(temp.value);
+                parsePositionalArgumentBoolean(name);
             case "STRING":
-                n = temp.value;
+                v = temp.value;
         }
-        return (T) n;
+        return (T) v;
     }
     
-    public Object getOptionalArgumentValue(String name) {        //NEEDS TO BE GENERIC
+	@SuppressWarnings("unchecked")
+    public <T> T getOptionalArgument(String name) {        //NEEDS TO BE GENERIC
+		Object v = null;
         OptionalArgument temp = new OptionalArgument(name);
         temp = optionalArguments.get(name);
-        switch (temp.type) {
+        if(null != temp.type) switch (temp.type) {
             case "INTEGER":
-                return Integer.parseInt(temp.value);
+                v = Integer.parseInt(temp.value);
+                parseOptionalArgumentInt(name);
             case "FLOAT":
-                return Float.parseFloat(temp.value);
+                v = Float.parseFloat(temp.value);
+                parseOptionalArgumentFloat(name);
             case "DOUBLE":
-                return Double.parseDouble(temp.value);
+                v = Double.parseDouble(temp.value);
+                parseOptionalArgumentDouble(name);
             case "BOOLEAN":
-                return Boolean.parseBoolean(temp.value);
+                v = Boolean.parseBoolean(temp.value);
+                parseOptionalArgumentBoolean(name);
             case "STRING":
-                return temp.value;
+                v = temp.value;
         }
-        return null;
+        return (T) v;
     }
+	//POSITIONAL ARGUMENT PARSERS
+	public String parsePositionalArgumentString(String name) {
+        PositionalArgument temp = new PositionalArgument(name);
+        temp = positionalArguments.get(name);
+		return temp.value;
+	}
+	
+	public int parsePositionalArgumentInt(String name) {
+        PositionalArgument temp = new PositionalArgument(name);
+        temp = positionalArguments.get(name);
+		return Integer.parseInt(temp.value);
+	}
+	
+	public float parsePositionalArgumentFloat(String name) {
+        PositionalArgument temp = new PositionalArgument(name);
+        temp = positionalArguments.get(name);
+		return Float.parseFloat(temp.value);
+	}
+	
+	public double parsePositionalArgumentDouble(String name) {
+        PositionalArgument temp = new PositionalArgument(name);
+        temp = positionalArguments.get(name);
+		return Double.parseDouble(temp.value);
+	}
+	
+	public boolean parsePositionalArgumentBoolean(String name) {
+        PositionalArgument temp = new PositionalArgument(name);
+        temp = positionalArguments.get(name);
+		return Boolean.parseBoolean(temp.value);
+	}
+	
+	//OPTIONAL ARGUMENT PARSERS
+	public String parseOptionalArgumentString(String name) {
+        OptionalArgument temp = new OptionalArgument(name);
+        temp = optionalArguments.get(name);
+		return temp.value;
+	}
+	
+	public int parseOptionalArgumentInt(String name) {
+        OptionalArgument temp = new OptionalArgument(name);
+        temp = optionalArguments.get(name);
+		return Integer.parseInt(temp.value);
+	}
+	
+	public float parseOptionalArgumentFloat(String name) {
+        OptionalArgument temp = new OptionalArgument(name);
+        temp = optionalArguments.get(name);
+		return Float.parseFloat(temp.value);
+	}
+	
+	public double parseOptionalArgumentDouble(String name) {
+        OptionalArgument temp = new OptionalArgument(name);
+        temp = optionalArguments.get(name);
+		return Double.parseDouble(temp.value);
+	}
+	
+	public boolean parseOptionalArgumentBoolean(String name) {
+        OptionalArgument temp = new OptionalArgument(name);
+        temp = optionalArguments.get(name);
+		return Boolean.parseBoolean(temp.value);
+	}
 	//CHECK FOR ERRORS
     /*public void checkForMissingArguments() {
         String missingArguments = "";
@@ -104,6 +179,35 @@ public class ArgumentParser {
         //CHECK FOR INVALID ARGUMENTS
 		throw new invlalidArgumentException("\nUsage: Java VolumeCalculator length width height\nVolumeCalculator.Java: error: argument width: invalid float value: " + invalidArguments + "\nThe following datatypes should be supported: int, float, boolean, and String, which is the default value if type is left unspecified.");
 	}*/
+    //MESSAGES
+    public void showHelp() {
+        System.out.println("\nUsage: Java VolumeCalculator length width height\nCalculate the volume of a box.\n\nPositional arguments:\nlength: the length of the box\nwidth: the width of the box\nheight: the height of the box");
+    }
+    //EXCEPTIONS
+    public class invlalidArgumentException extends RuntimeException {
+        public invlalidArgumentException (String message) {
+			super (message);
+        }
+    }
+	
+    public class missingArgumentException extends RuntimeException {
+        public missingArgumentException (String message) {
+			super (message);
+        }
+    }
+	
+    public class unrecognisedArgumentException extends RuntimeException {
+        public unrecognisedArgumentException (String message) {
+			super (message);
+        }	
+    }
+    
+    public class unknownSpecifiedArgumentException extends RuntimeException {
+        public unknownSpecifiedArgumentException (String message) {
+			super ("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unknown arguments: ");// + unknownArguments);
+        }	
+    }
+	
     //POSITIONAL ARGUMENT OBJECT
     public class PositionalArgument {
         public String name = "";
@@ -177,44 +281,64 @@ public class ArgumentParser {
             return type;
         }
     }
-    //MESSAGES
-    public void showHelp() {
-        System.out.println("\nUsage: Java VolumeCalculator length width height\nCalculate the volume of a box.\n\nPositional arguments:\nlength: the length of the box\nwidth: the width of the box\nheight: the height of the box");
-    }
-    
-    //EXCEPTIONS
-    public class invlalidArgumentException extends RuntimeException {
-        public invlalidArgumentException (String message) {
-			super (message);
-        }
-    }
 	
-    public class missingArgumentException extends RuntimeException {
-        public missingArgumentException (String message) {
-			super (message);
-        }
-    }
+	//TEMPORARY METHOD FOR READING CMD AND EXCEPTION HANDLING
+	public void readInput() {
+		String argument = "";
+		String name = "";
+        for(int i=0; i<userInput.size(); i++) {
+			//CHECK FOR HELP
+            if(userInput.get(i).contains("--help") || userInput.get(i).contains("-h")) {
+                showHelp();
+				userInput.set(i, "");
+			}
+			//CHECK FOR OPTIONAL ARGUMENT LONG NAME
+			else if(userInput.get(i).startsWith("--")) {
+				argument = userInput.get(i).replace("--", "");
+				OptionalArgument temp = new OptionalArgument(argument);
+				temp = optionalArguments.get(argument);
+				temp.setValue(userInput.get(i+1));
+				optionalArguments.put(argument, temp);
+				userInput.set(i, "");
+				userInput.set(i+1, "");
+			}
+			//CHECK FOR OPTIONAL ARGUMENT SHORT NAME
+			else if(userInput.get(i).contains("-") && !userInput.get(i).contains("--")) {
+				argument = userInput.get(i).replace("-", "");
+				if(optionalArgumentShortNames.get(argument) != null) {
+					name = optionalArgumentShortNames.get(argument);
+					OptionalArgument temp = new OptionalArgument(name);
+					temp = optionalArguments.get(name);
+					temp.setValue(userInput.get(i+1));
+					optionalArguments.put(name, temp);
+					userInput.set(i, "");
+					userInput.set(i+1, "");
+					}
+					
+				else {
+					throw new missingArgumentException("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unknown arguments: " + userInput.get(i));
+					}
+			}
+			else if (userInput.get(i) != "") {
+				argument = userInput.get(i).replace("--", "");
+				PositionalArgument temp = new PositionalArgument(argument);
+				temp = positionalArguments.get(argument);
+				temp.setValue(userInput.get(i+1));
+				positionalArguments.put(argument, temp);
+				userInput.set(i, "");
+			}
+		}
+	}
 	
-    public class unrecognisedArgumentException extends RuntimeException {
-        public unrecognisedArgumentException (String message) {
-			super (message);
-        }	
-    }
-    
-    public class unknownSpecifiedArgumentException extends RuntimeException {
-        public unknownSpecifiedArgumentException (String message) {
-			super ("\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unknown arguments: ");// + unknownArguments);
-        }	
-    }
+	public void printRemainingInput() {
+        for(int i=0; i<userInput.size(); i++) {
+			System.out.println(userInput.get(i));
+		}
+	}
     //MAIN
-    /*public static void main(String args[]) {
+    public static void main(String args[]) {
         ArgumentParser p = new ArgumentParser();
-        for(int i=0; i<p.userInput.size(); i++) {// 
-            if(p.userInput.get(i).contains("--help") || p.userInput.get(i).contains("-h")) {
-                p.showHelp();
-            }
-        }
-    }*/
+	}
 }
 
 /*
