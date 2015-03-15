@@ -247,7 +247,7 @@ public class ArgumentParser {
 		for(int i=0; i<input.size(); i++) {
 			if (input.get(i) != "") {
 				try {
-					value = Float.parseFloat(input.get(i));
+					//value = Float.parseFloat(input.get(i));
 					argument = names.get(j);
 					PositionalArgument temp = new PositionalArgument(argument);
 					temp = positionalArguments.get(argument);
@@ -340,8 +340,11 @@ public class ArgumentParser {
 		}
 	}
     //MESSAGES
-    public void showHelp() {
-        System.out.println("\nUsage: Java VolumeCalculator length width height\nCalculate the volume of a box.\n\nPositional arguments:\nlength: the length of the box\nwidth: the width of the box\nheight: the height of the box");
+    public String showHelp() {
+		String help = "";
+		help = "\nUsage: Java VolumeCalculator length width height\nCalculate the volume of a box.\n\nPositional arguments:\nlength: the length of the box\nwidth: the width of the box\nheight: the height of the box";
+		System.out.println(help);
+		return help;
     }
     //EXCEPTIONS
 }

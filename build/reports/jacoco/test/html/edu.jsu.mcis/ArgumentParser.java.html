@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ArgumentParser.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ArgParser_Group3</a> &gt; <a href="index.source.html" class="el_package">edu.jsu.mcis</a> &gt; <span class="el_source">ArgumentParser.java</span></div><h1>ArgumentParser.java</h1><pre class="source lang-java linenums">package edu.jsu.mcis;
+
+import java.util.*;
+import java.io.*;
+
+<span class="fc" id="L6">public class ArgumentParser {</span>
+	//VARIABLES
+<span class="fc" id="L8">    private HashMap&lt;String, PositionalArgument&gt; positionalArguments = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L9">    private HashMap&lt;String, OptionalArgument&gt; optionalArguments = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L10">	private HashMap&lt;String, String&gt; optionalArgumentShortNames = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L11">    public ArrayList&lt;String&gt; input = new ArrayList&lt;&gt;();</span>
+<span class="pc" id="L12">	private enum Datatype {STRING, FLOAT, INTEGER, BOOLEAN};</span>
+    //ADD ARGUMENTS
+    public void addPositionalArgument(String name) {
+<span class="fc" id="L15">        positionalArguments.put(name, new PositionalArgument(name));</span>
+<span class="fc" id="L16">    }</span>
+    
+    public void addOptionalArgument(String name) {
+<span class="fc" id="L19">        optionalArguments.put(name, new OptionalArgument(name));</span>
+<span class="fc" id="L20">		String shortName = &quot;&quot; + name.charAt(0);</span>
+<span class="fc" id="L21">		optionalArgumentShortNames.put(shortName, name);</span>
+<span class="fc" id="L22">    }</span>
+    //ADD ARGUMENT VALUES AND DATATYPES
+    public void addPositionalArgumentValue(String name, String value, String type) {
+<span class="fc" id="L25">        PositionalArgument temp = new PositionalArgument(name);</span>
+<span class="fc" id="L26">        temp.setValue(value);</span>
+<span class="fc" id="L27">        temp.setDataType(type);</span>
+<span class="fc" id="L28">        positionalArguments.put(name,temp);</span>
+<span class="fc" id="L29">    }</span>
+    public void addPositionalArgumentValue(String name,String type) {
+<span class="fc" id="L31">        PositionalArgument temp = new PositionalArgument(name);</span>
+<span class="fc" id="L32">        temp.setDataType(type);</span>
+<span class="fc" id="L33">        positionalArguments.put(name,temp);</span>
+<span class="fc" id="L34">    }</span>
+	
+    public void addOptionalArgumentValue(String name, String value, String type) {
+<span class="fc" id="L37">        OptionalArgument temp = new OptionalArgument(name);</span>
+<span class="fc" id="L38">        temp.setValue(value);</span>
+<span class="fc" id="L39">        temp.setDataType(type);</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">		if(type != &quot;STRING&quot;) {</span>
+<span class="fc" id="L41">			checkForInvalidArguments(value);</span>
+		}
+<span class="fc" id="L43">        optionalArguments.put(name, temp);</span>
+<span class="fc" id="L44">    }</span>
+	//GET ARGUMENT VALUES AS STRINGS
+	public String getPositionalArgumentValue(String name) {
+<span class="nc" id="L47">        PositionalArgument temp = new PositionalArgument(name);</span>
+<span class="nc" id="L48">        temp = positionalArguments.get(name);</span>
+<span class="nc" id="L49">		return temp.getValue();</span>
+	}
+	public String getOptionalArgumentValue(String name) {
+<span class="nc" id="L52">        OptionalArgument temp = new OptionalArgument(name);</span>
+<span class="nc" id="L53">        temp = optionalArguments.get(name);</span>
+<span class="nc" id="L54">		return temp.getValue();</span>
+	}
+    //ADD ARGUMENT DESCRIPTION/HELP INFORMATION
+    public void addOptionalArgumentDescription(String name, String info) {
+<span class="fc" id="L58">        OptionalArgument temp = new OptionalArgument(name);</span>
+<span class="fc" id="L59">		temp = optionalArguments.get(name);</span>
+<span class="fc" id="L60">        temp.setInfo(info);</span>
+<span class="fc" id="L61">        optionalArguments.put(name, temp);</span>
+<span class="fc" id="L62">    }</span>
+    //GET ARGUMENT DESCRIPTION/HELP INFORMATION
+    public String getOptionalArgumentDescription(String name) {
+<span class="fc" id="L65">        OptionalArgument temp = new OptionalArgument(name);</span>
+<span class="fc" id="L66">		temp = optionalArguments.get(name);</span>
+<span class="fc" id="L67">        return temp.getInfo();</span>
+    }
+	//SET OPTIONAL ARGUMENT FLAGS
+	public void setFlag(String name, boolean flag) {
+<span class="nc" id="L71">        OptionalArgument temp = new OptionalArgument(name);</span>
+<span class="nc" id="L72">        temp = optionalArguments.get(name);</span>
+<span class="nc" id="L73">		temp.setFlag(flag);</span>
+<span class="nc" id="L74">		optionalArguments.put(name, temp);</span>
+<span class="nc" id="L75">	}</span>
+	//GET OPTIONAL ARGUMENT FLAGS
+	public boolean getFlag(String name) {
+<span class="nc" id="L78">        OptionalArgument temp = new OptionalArgument(name);</span>
+<span class="nc" id="L79">        temp = optionalArguments.get(name);</span>
+<span class="nc" id="L80">		return temp.getFlag();</span>
+	}
+    //GET ARGUMENT VALUE AS OBJECTS
+	@SuppressWarnings(&quot;unchecked&quot;)
+    public &lt;T&gt; T getPositionalArgument(String name) {
+<span class="fc" id="L85">		Object v = null;</span>
+<span class="fc" id="L86">        PositionalArgument temp = new PositionalArgument(name);</span>
+<span class="fc" id="L87">        temp = positionalArguments.get(name);</span>
+<span class="pc bpc" id="L88" title="11 of 24 branches missed.">        if(null != temp.type) switch (temp.type) {</span>
+            case &quot;INTEGER&quot;:
+<span class="fc" id="L90">                v = Integer.parseInt(temp.value);</span>
+<span class="fc" id="L91">                parsePositionalArgumentInt(name);</span>
+            case &quot;FLOAT&quot;:
+<span class="fc" id="L93">                v = Float.parseFloat(temp.value);</span>
+<span class="fc" id="L94">                parsePositionalArgumentFloat(name);</span>
+            case &quot;DOUBLE&quot;:
+<span class="fc" id="L96">                v = Double.parseDouble(temp.value);</span>
+<span class="fc" id="L97">                parsePositionalArgumentDouble(name);</span>
+            case &quot;BOOLEAN&quot;:
+<span class="fc" id="L99">                v = Boolean.parseBoolean(temp.value);</span>
+<span class="fc" id="L100">                parsePositionalArgumentBoolean(name);</span>
+            case &quot;STRING&quot;:
+<span class="fc" id="L102">                v = temp.value;</span>
+        }
+<span class="fc" id="L104">        return (T) v;</span>
+    }
+    
+	@SuppressWarnings(&quot;unchecked&quot;)
+    public &lt;T&gt; T getOptionalArgument(String name) {
+<span class="nc" id="L109">		Object v = null;</span>
+<span class="nc" id="L110">        OptionalArgument temp = new OptionalArgument(name);</span>
+<span class="nc" id="L111">        temp = optionalArguments.get(name);</span>
+<span class="nc bnc" id="L112" title="All 24 branches missed.">        if(null != temp.type) switch (temp.type) {</span>
+            case &quot;INTEGER&quot;:
+<span class="nc" id="L114">                v = Integer.parseInt(temp.value);</span>
+<span class="nc" id="L115">                parseOptionalArgumentInt(name);</span>
+            case &quot;FLOAT&quot;:
+<span class="nc" id="L117">                v = Float.parseFloat(temp.value);</span>
+<span class="nc" id="L118">                parseOptionalArgumentFloat(name);</span>
+            case &quot;DOUBLE&quot;:
+<span class="nc" id="L120">                v = Double.parseDouble(temp.value);</span>
+<span class="nc" id="L121">                parseOptionalArgumentDouble(name);</span>
+            case &quot;BOOLEAN&quot;:
+<span class="nc" id="L123">                v = Boolean.parseBoolean(temp.value);</span>
+<span class="nc" id="L124">                parseOptionalArgumentBoolean(name);</span>
+            case &quot;STRING&quot;:
+<span class="nc" id="L126">                v = temp.value;</span>
+        }
+<span class="nc" id="L128">        return (T) v;</span>
+    }
+	//POSITIONAL ARGUMENT PARSERS
+	public String parsePositionalArgumentString(String name) {
+<span class="nc" id="L132">        PositionalArgument temp = new PositionalArgument(name);</span>
+<span class="nc" id="L133">        temp = positionalArguments.get(name);</span>
+<span class="nc" id="L134">		return temp.value;</span>
+	}
+	
+	public int parsePositionalArgumentInt(String name) {
+<span class="fc" id="L138">        PositionalArgument temp = new PositionalArgument(name);</span>
+<span class="fc" id="L139">        temp = positionalArguments.get(name);</span>
+<span class="fc" id="L140">		return Integer.parseInt(temp.value);</span>
+	}
+	
+	public float parsePositionalArgumentFloat(String name) {
+<span class="fc" id="L144">        PositionalArgument temp = new PositionalArgument(name);</span>
+<span class="fc" id="L145">        temp = positionalArguments.get(name);</span>
+<span class="fc" id="L146">		return Float.parseFloat(temp.value);</span>
+	}
+	
+	public double parsePositionalArgumentDouble(String name) {
+<span class="fc" id="L150">        PositionalArgument temp = new PositionalArgument(name);</span>
+<span class="fc" id="L151">        temp = positionalArguments.get(name);</span>
+<span class="fc" id="L152">		return Double.parseDouble(temp.value);</span>
+	}
+	
+	public boolean parsePositionalArgumentBoolean(String name) {
+<span class="fc" id="L156">        PositionalArgument temp = new PositionalArgument(name);</span>
+<span class="fc" id="L157">        temp = positionalArguments.get(name);</span>
+<span class="fc" id="L158">		return Boolean.parseBoolean(temp.value);</span>
+	}
+	
+	//OPTIONAL ARGUMENT PARSERS
+	public String parseOptionalArgumentString(String name) {
+<span class="nc" id="L163">        OptionalArgument temp = new OptionalArgument(name);</span>
+<span class="nc" id="L164">        temp = optionalArguments.get(name);</span>
+<span class="nc" id="L165">		return temp.value;</span>
+	}
+	
+	public int parseOptionalArgumentInt(String name) {
+<span class="nc" id="L169">        OptionalArgument temp = new OptionalArgument(name);</span>
+<span class="nc" id="L170">        temp = optionalArguments.get(name);</span>
+<span class="nc" id="L171">		return Integer.parseInt(temp.value);</span>
+	}
+	
+	public float parseOptionalArgumentFloat(String name) {
+<span class="nc" id="L175">        OptionalArgument temp = new OptionalArgument(name);</span>
+<span class="nc" id="L176">        temp = optionalArguments.get(name);</span>
+<span class="nc" id="L177">		return Float.parseFloat(temp.value);</span>
+	}
+	
+	public double parseOptionalArgumentDouble(String name) {
+<span class="nc" id="L181">        OptionalArgument temp = new OptionalArgument(name);</span>
+<span class="nc" id="L182">        temp = optionalArguments.get(name);</span>
+<span class="nc" id="L183">		return Double.parseDouble(temp.value);</span>
+	}
+	
+	public boolean parseOptionalArgumentBoolean(String name) {
+<span class="nc" id="L187">        OptionalArgument temp = new OptionalArgument(name);</span>
+<span class="nc" id="L188">        temp = optionalArguments.get(name);</span>
+<span class="nc" id="L189">		return Boolean.parseBoolean(temp.value);</span>
+	}
+	//ARGUMENT PARSER
+	public void parse(String str) {
+<span class="fc" id="L193">		Scanner scan = new Scanner(str);</span>
+<span class="fc" id="L194">		String argument = &quot;&quot;;</span>
+<span class="fc" id="L195">		String name = &quot;&quot;;</span>
+<span class="fc" id="L196">		String index = &quot;&quot;;</span>
+		float value;
+<span class="fc bfc" id="L198" title="All 2 branches covered.">		while(scan.hasNext())</span>
+		{
+<span class="fc" id="L200">			String extra  = scan.next();</span>
+<span class="fc" id="L201">			input.add(extra);</span>
+<span class="fc" id="L202">		}</span>
+<span class="fc bfc" id="L203" title="All 2 branches covered.">        for(int i=0; i&lt;input.size(); i++) {</span>
+			//CHECK FOR HELP
+<span class="pc bpc" id="L205" title="1 of 4 branches missed.">            if(input.get(i).contains(&quot;--help&quot;) || input.get(i).contains(&quot;-h&quot;)) {</span>
+<span class="fc" id="L206">                showHelp();</span>
+<span class="fc" id="L207">				input.set(i, &quot;&quot;);</span>
+			}
+			//CHECK FOR OPTIONAL ARGUMENT LONG NAME
+<span class="pc bpc" id="L210" title="1 of 2 branches missed.">			else if(input.get(i).startsWith(&quot;--&quot;)) {</span>
+<span class="nc" id="L211">				argument = input.get(i).replace(&quot;--&quot;, &quot;&quot;);</span>
+<span class="nc" id="L212">				OptionalArgument temp = new OptionalArgument(argument);</span>
+<span class="nc" id="L213">				temp = optionalArguments.get(argument);</span>
+<span class="nc bnc" id="L214" title="All 2 branches missed.">				if(temp == null) {</span>
+<span class="nc" id="L215">					throw new UnknownArgumentException(&quot;\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unknown arguments: &quot; + argument);</span>
+				}
+<span class="nc" id="L217">				temp.setFlag(true);</span>
+<span class="nc" id="L218">				temp.setValue(input.get(i+1));</span>
+<span class="nc" id="L219">				optionalArguments.put(argument, temp);</span>
+<span class="nc" id="L220">				input.set(i, &quot;&quot;);</span>
+<span class="nc" id="L221">				input.set(i+1, &quot;&quot;);</span>
+<span class="nc" id="L222">			}</span>
+			//CHECK FOR OPTIONAL ARGUMENT SHORT NAME
+<span class="pc bpc" id="L224" title="3 of 4 branches missed.">			else if(input.get(i).contains(&quot;-&quot;) &amp;&amp; !input.get(i).contains(&quot;--&quot;)) {</span>
+<span class="nc" id="L225">				argument = input.get(i).replace(&quot;-&quot;, &quot;&quot;);</span>
+<span class="nc bnc" id="L226" title="All 2 branches missed.">				if(optionalArgumentShortNames.get(argument) != null) {</span>
+<span class="nc" id="L227">					name = optionalArgumentShortNames.get(argument);</span>
+<span class="nc" id="L228">					OptionalArgument temp = new OptionalArgument(name);</span>
+<span class="nc" id="L229">					temp = optionalArguments.get(name);</span>
+<span class="nc" id="L230">					temp.setFlag(true);</span>
+<span class="nc" id="L231">					temp.setValue(input.get(i+1));</span>
+<span class="nc" id="L232">					optionalArguments.put(name, temp);</span>
+<span class="nc" id="L233">					input.set(i, &quot;&quot;);</span>
+<span class="nc" id="L234">					input.set(i+1, &quot;&quot;);</span>
+<span class="nc" id="L235">					}</span>
+				else {
+<span class="nc" id="L237">					throw new UnknownArgumentException(&quot;\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unknown arguments: &quot; + argument);</span>
+				}
+			}
+		}
+		//CHECK FOR POSITIONAL ARGUMENTS
+<span class="fc" id="L242">		int j = 0;</span>
+<span class="fc" id="L243">		ArrayList&lt;String&gt; names = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L244" title="All 2 branches covered.">		for(String arguments : positionalArguments.keySet()) {</span>
+<span class="fc" id="L245">			names.add(arguments);</span>
+<span class="fc" id="L246">		}</span>
+<span class="fc bfc" id="L247" title="All 2 branches covered.">		for(int i=0; i&lt;input.size(); i++) {</span>
+<span class="fc bfc" id="L248" title="All 2 branches covered.">			if (input.get(i) != &quot;&quot;) {</span>
+				try {
+					//value = Float.parseFloat(input.get(i));
+<span class="fc" id="L251">					argument = names.get(j);</span>
+<span class="fc" id="L252">					PositionalArgument temp = new PositionalArgument(argument);</span>
+<span class="fc" id="L253">					temp = positionalArguments.get(argument);</span>
+<span class="fc" id="L254">					temp.setValue(input.get(i));</span>
+<span class="fc" id="L255">					positionalArguments.put(argument, temp);</span>
+<span class="fc" id="L256">					input.set(i, &quot;&quot;);</span>
+<span class="fc" id="L257">					j++;</span>
+				}
+<span class="nc" id="L259">				catch(Exception e) {</span>
+<span class="nc" id="L260">					checkForInvalidInput(input);</span>
+<span class="fc" id="L261">				}</span>
+			}
+		}
+<span class="fc" id="L264">		checkForMissingArguments(input);</span>
+<span class="fc" id="L265">		checkForUnrecognisedArguments(input);</span>
+<span class="fc" id="L266">	}</span>
+	//CHECK FOR ERRORS
+    public void checkForMissingArguments(ArrayList&lt;String&gt; s) {
+<span class="fc" id="L269">        String missingArguments = &quot;&quot;;</span>
+<span class="fc bfc" id="L270" title="All 2 branches covered.">		for(String argument : positionalArguments.keySet()) {</span>
+<span class="fc" id="L271">			PositionalArgument temp = new PositionalArgument(argument);</span>
+<span class="fc" id="L272">			temp = positionalArguments.get(argument);</span>
+<span class="fc bfc" id="L273" title="All 2 branches covered.">			if(temp.getValue() == &quot;&quot;) {</span>
+<span class="fc" id="L274">				missingArguments += temp.getName() + &quot; &quot;;</span>
+			}
+<span class="fc" id="L276">		}</span>
+<span class="fc bfc" id="L277" title="All 2 branches covered.">		if(missingArguments != &quot;&quot;) {</span>
+<span class="fc" id="L278">			throw new MissingArgumentException(&quot;\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: missing arguments: &quot; + missingArguments);</span>
+		}
+<span class="fc" id="L280">    }</span>
+    
+    public void checkForUnrecognisedArguments(ArrayList&lt;String&gt; s) {
+<span class="fc" id="L283">        String unrecognisedArguments = &quot;&quot;;</span>
+		float value;
+<span class="fc bfc" id="L285" title="All 2 branches covered.">		for(int i=0; i&lt;s.size(); i++) {</span>
+<span class="pc bpc" id="L286" title="1 of 2 branches missed.">			if(s.get(i) != &quot;&quot;) {</span>
+				try {
+<span class="nc" id="L288">					value = Float.parseFloat(s.get(i));</span>
+<span class="nc" id="L289">					unrecognisedArguments += s.get(i) + &quot; &quot;;</span>
+<span class="nc" id="L290">				} catch(Exception e) {}</span>
+			}
+		}
+<span class="pc bpc" id="L293" title="1 of 2 branches missed.">		if(unrecognisedArguments != &quot;&quot;) {</span>
+<span class="nc" id="L294">			throw new UnrecognisedArgumentException (&quot;\nUsage: Java VolumeCalculator length width height \nVolumeCalculator.Java: error: unrecognised arguments: &quot; + unrecognisedArguments);</span>
+		}
+<span class="fc" id="L296">    }</span>
+	
+	public void checkForInvalidInput(ArrayList&lt;String&gt; s) {
+<span class="fc" id="L299">		String invalidArguments = &quot;&quot;;</span>
+		float value;
+<span class="fc bfc" id="L301" title="All 2 branches covered.">		for(int i=0; i&lt;s.size(); i++) {</span>
+			try {
+<span class="fc" id="L303">				value = Float.parseFloat(s.get(i));</span>
+<span class="fc" id="L304">			} catch(Exception e) {</span>
+<span class="fc" id="L305">				invalidArguments += s.get(i) + &quot; &quot;;</span>
+<span class="fc" id="L306">			}</span>
+		}
+<span class="pc bpc" id="L308" title="1 of 2 branches missed.">		if(invalidArguments != &quot;&quot;) {</span>
+<span class="fc" id="L309">			throw new InvalidArgumentException(&quot;\nUsage: Java VolumeCalculator length width height\nVolumeCalculator.Java: error: argument width: invalid float value: &quot; + invalidArguments + &quot;\nThe following datatypes should be supported: int, float, boolean, and String, which is the default value if type is left unspecified.&quot;);</span>
+		}
+<span class="nc" id="L311">	}</span>
+	
+	public void checkForInvalidArguments(String s) {
+<span class="fc" id="L314">		boolean valid = true;</span>
+		while(true) {
+			try {
+<span class="fc" id="L317">				Integer.parseInt(s);</span>
+<span class="fc" id="L318">				valid = true;</span>
+<span class="fc" id="L319">				break;</span>
+<span class="fc" id="L320">			} catch (Exception e) {</span>
+<span class="fc" id="L321">				valid = false;</span>
+				try {
+<span class="fc" id="L323">					Float.parseFloat(s);</span>
+<span class="fc" id="L324">					valid = true;</span>
+<span class="fc" id="L325">					break;</span>
+<span class="fc" id="L326">				} catch (Exception f) {</span>
+<span class="fc" id="L327">					valid = false;</span>
+					try {
+<span class="fc" id="L329">						Boolean.parseBoolean(s);</span>
+<span class="fc" id="L330">						valid = true;</span>
+<span class="fc" id="L331">						break;</span>
+<span class="nc" id="L332">					} catch (Exception h) {</span>
+<span class="nc" id="L333">						valid = false;</span>
+					}
+				}  
+<span class="nc" id="L336">			}</span>
+		}
+<span class="pc bpc" id="L338" title="1 of 2 branches missed.">		if(!valid) {</span>
+<span class="nc" id="L339">			throw new InvalidArgumentException(&quot;\nUsage: Java VolumeCalculator length width height\nVolumeCalculator.Java: error: argument width: invalid float value: &quot; + s + &quot;\nThe following datatypes should be supported: int, float, boolean, and String, which is the default value if type is left unspecified.&quot;);</span>
+		}
+<span class="fc" id="L341">	}</span>
+    //MESSAGES
+    public String showHelp() {
+<span class="fc" id="L344">		String help = &quot;&quot;;</span>
+<span class="fc" id="L345">		help = &quot;\nUsage: Java VolumeCalculator length width height\nCalculate the volume of a box.\n\nPositional arguments:\nlength: the length of the box\nwidth: the width of the box\nheight: the height of the box&quot;;</span>
+<span class="fc" id="L346">		System.out.println(help);</span>
+<span class="fc" id="L347">		return help;</span>
+    }
+    //EXCEPTIONS
+}
+
+/*
+TO DO:
+Make &quot;Getters&quot;
+Unit Tests
+Acceptance Tests
+*/
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

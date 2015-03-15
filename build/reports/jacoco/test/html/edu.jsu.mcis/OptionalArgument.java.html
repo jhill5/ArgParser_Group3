@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>OptionalArgument.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ArgParser_Group3</a> &gt; <a href="index.source.html" class="el_package">edu.jsu.mcis</a> &gt; <span class="el_source">OptionalArgument.java</span></div><h1>OptionalArgument.java</h1><pre class="source lang-java linenums">package edu.jsu.mcis;
+
+public class OptionalArgument {
+<span class="fc" id="L4">	public String name = &quot;&quot;;</span>
+<span class="fc" id="L5">	public String shortName = &quot;&quot;;</span>
+<span class="fc" id="L6">	public String value = &quot;&quot;;</span>
+<span class="fc" id="L7">	public String info = &quot;&quot;;</span>
+<span class="fc" id="L8">	public String type = &quot;&quot;;</span>
+<span class="fc" id="L9">	public boolean present = false;</span>
+	//public Datatype dataType;
+	
+<span class="fc" id="L12">	public OptionalArgument (String n) {</span>
+<span class="fc" id="L13">		name = n;</span>
+<span class="fc" id="L14">	}</span>
+	public String getName(){
+<span class="nc" id="L16">		return name;</span>
+	}
+	public void setValue(String v){
+<span class="fc" id="L19">		value = v;</span>
+<span class="fc" id="L20">	}</span>
+	public String getValue(){
+<span class="nc" id="L22">		return value;</span>
+	}
+	public void setInfo(String i){
+<span class="fc" id="L25">		info = i;</span>
+<span class="fc" id="L26">	}</span>
+	public String getInfo(){
+<span class="fc" id="L28">		return info;</span>
+	}
+	public void setShortName(String s) {
+<span class="nc" id="L31">		shortName = s;</span>
+<span class="nc" id="L32">	}</span>
+	public String getShortName() {
+<span class="nc" id="L34">		return shortName;</span>
+	}
+	public void setDataType(String d) {
+<span class="fc" id="L37">		type = d;</span>
+<span class="fc" id="L38">	}</span>
+	public String getDataType() {
+<span class="nc" id="L40">		return type;</span>
+	}
+	public void setFlag(boolean f) {
+<span class="nc" id="L43">		present = f;</span>
+<span class="nc" id="L44">	}</span>
+	public boolean getFlag() {
+<span class="nc" id="L46">		return present;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

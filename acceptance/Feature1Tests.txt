@@ -4,31 +4,31 @@ Library           Feature1Keywords
 	
 *** Test Cases ***
 Test Case 1
-	Start Program 	7 5 2
-	${length}= 	Get 	Length
-	Should Be Equal 	${length}	7
-	${width}= 	Get 	Width
+	startProgram 	                   7 5 2
+	${length}= 	Get 	length
+	Should Be Equal 	${length}	2
+	${width}= 	Get 	width
 	Should Be Equal 	${width} 	5
-	${height}= 	Get 	Height
-	Should Be Equal 	2 	${height}
+	${height}= 	Get 	height
+	Should Be Equal 	${height}       7
 	
 Test Case 2
-	Start Program Mixed  dog 2 true 3.5
-	${pet}= 	Get 	Pet
+	startProgramMixed                 true dog 3.5 2
+	${pet}= 	Get 	pet
 	Should Be Equal 	${pet}		dog
-	${number}= 	Get 	Number
+	${number}= 	Get 	number
 	Should Be Equal 	${number}	2
-	${rainy}= 	Get 	Rainy
+	${rainy}= 	Get 	rainy
 	Should Be Equal 	${rainy}	true
-	${bathrooms}= 	Get 	Bathrooms
+	${bathrooms}= 	Get 	bathrooms
 	Should Be Equal 	${bathrooms}	3.5
 	
 Test Case 3
-	Start Program With Optionals   7 --type box 5 2
-	${type}= 	Get   Type
+	startProgramWithOptionals         7 --type box 5 2
+	${type}= 	Get   type
 	Should Be Equal   ${type}   box
 	
 Test case 4
-	Start Program With Short  7 -t box 5 2
+	startProgramWithShort              7 -t box 5 2
 	$(t)=  Get  t
 	Should Be Equal  $(t)  box
