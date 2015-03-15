@@ -1,30 +1,33 @@
-//package APR;
-
+package edu.jsu.mcis;
 public class Demo {
 	
-    /*public void printPositionalArgumentInfo(String name) {
-        ArgumentParser p = new ArgumentParser();
-        p.PositionalArgument temp = positionalArguments.get(name);
-        temp.setInfo("This describes the positional argument.");
-        System.out.println(temp.getInfo());
-        System.out.println("Name: " + temp.getName());
-        temp.setValue("7");
-        System.out.println("Value: " + temp.getValue());
-        temp.setDataType("INTEGER");
-        System.out.println("Datatype: " + temp.getDataType());
-    }
-    
-    public void printOptionalArgumentInfo(String name) {
-        ArgumentParser p = new ArgumentParser();
-        p.OptionalArgument temp = optionalArguments.get(name);
-        temp.setInfo("This describes the optional argument.");
-        System.out.println(temp.getInfo());
-        System.out.println("Name: " + temp.getName());
-        temp.setValue("red");
-        System.out.println("Value: " + temp.getValue());
-        temp.setShortName("c");
-        System.out.println("Short Name: " + temp.getShortName());
-        temp.setDataType("STRING");
-        System.out.println("Datatype: " + temp.getDataType());
-    }*/
+	public void showDemo() {
+		ArgumentParser p = new ArgumentParser();
+		System.out.println("\nArgument values before command line input:");
+		
+		System.out.println("Value of color: " + p.getOptionalArgument("color"));
+		System.out.println("Value of age: " + p.getOptionalArgument("age"));
+		System.out.println("Value of weight: " + p.getOptionalArgument("weight"));
+		
+		System.out.println("Value of length: " + p.getPositionalArgument("length"));
+		System.out.println("Value of width: " + p.getPositionalArgument("width"));
+		System.out.println("Value of height: " + p.getPositionalArgument("height"));
+		
+		
+		System.out.println("\nArgument values after command line input:");
+		
+		System.out.println("Value of color: " + p.getOptionalArgument("color"));
+		System.out.println("Is Present: " + p.getFlag("color"));
+		System.out.println("Description: " + p.getOptionalArgumentDescription("color"));
+		System.out.println("Value of age: " + p.getOptionalArgument("age"));
+		System.out.println("Is Present: " + p.getFlag("age"));
+		System.out.println("Description: " + p.getOptionalArgumentDescription("age"));
+        System.out.println("Value of weight: " + p.getOptionalArgument("weight"));
+		System.out.println("Is Present: " + p.getFlag("weight"));
+		System.out.println("Description: " + p.getOptionalArgumentDescription("weight"));
+		
+		System.out.println("Value of length: " + p.getPositionalArgumentValue("length"));
+		System.out.println("Value of width: " + p.getPositionalArgumentValue("width"));
+		System.out.println("Value of height: " + p.getPositionalArgumentValue("height"));
+	}
 }

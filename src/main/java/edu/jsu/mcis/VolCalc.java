@@ -6,57 +6,62 @@ public class VolCalc {
 
     public static void main(String[] args) {
         ArgumentParser p = new ArgumentParser();
-        p.userInput.addAll(Arrays.asList(args));
-        
-		System.out.println("Argument values before command line input:");//DEMO
+		String read = "";
+		for(String arg:args){
+			read += arg + " ";
+		}
+        p.parse(read);
 		
         p.addOptionalArgument("color");
         p.addOptionalArgumentValue("color", "red", "STRING");
-		System.out.println("Value of color: " + p.getOptionalArgument("color"));//DEMO
+		p.addOptionalArgumentDescription("color", "color's value is a string.");
         p.addOptionalArgument("age");
         p.addOptionalArgumentValue("age", "22", "INTEGER");
-		System.out.println("Value of age: " + p.getOptionalArgument("age"));//DEMO
+		p.addOptionalArgumentDescription("age", "age's value is an integer.");
         p.addOptionalArgument("weight");
         p.addOptionalArgumentValue("weight", "160.5", "FLOAT");
-		System.out.println("Value of weight: " + p.getOptionalArgument("weight"));//DEMO
+		p.addOptionalArgumentDescription("weight", "weight's value is a float.");
+		
         p.addPositionalArgument("length");
-        //p.addPositionalArgumentValue("length", "7", "INTEGER");
-		System.out.println("Value of length: " + p.getPositionalArgument("length"));//DEMO
         p.addPositionalArgument("width");
-        //p.addPositionalArgumentValue("width", "5", "INTEGER");
-		System.out.println("Value of width: " + p.getPositionalArgument("width"));//DEMO
         p.addPositionalArgument("height");
-        //p.addPositionalArgumentValue("height", "2", "INTEGER");
-		System.out.println("Value of height: " + p.getPositionalArgument("height"));//DEMO
-		
-		p.readInput();
-		//p.printRemainingInput();
-		
-        /*float length = p.getPositionalArgument("length");
-        float width =  p.getPositionalArgument("width");
-        float height = p.getPositionalArgument("height");
-
-        float volume = length * width * height;
-        System.out.println("The volume is " + volume);*/
 		
 		//DEMO
-		System.out.println("\nArgument values after command line input:");
+		///////////////////////////////////////////////////////////////////////////////////////////////
+		System.out.println("\nDefaut argument values:\n");
 		
 		System.out.println("Value of color: " + p.getOptionalArgument("color"));
-		p.addOptionalArgumentDescription("color", "This is color's description.");
-		//System.out.println(p.getOptionalArgumentDescription("color"));
 		System.out.println("Value of age: " + p.getOptionalArgument("age"));
-		p.addOptionalArgumentDescription("age", "This is age's description.");
-		//System.out.println(p.getOptionalArgumentDescription("color"));
-        System.out.println("Value of weight: " + p.getOptionalArgument("weight"));
-		p.addOptionalArgumentDescription("weight", "This is weight's description.");
-		//System.out.println(p.getOptionalArgumentDescription("color"));
+		System.out.println("Value of weight: " + p.getOptionalArgument("weight"));
 		
 		System.out.println("Value of length: " + p.getPositionalArgument("length"));
 		System.out.println("Value of width: " + p.getPositionalArgument("width"));
 		System.out.println("Value of height: " + p.getPositionalArgument("height"));
-        
-        //d.printPositionalArgumentInfo("length");
-        //d.printOptionalArgumentInfo("color");
+		
+		p.parse(read);
+		
+		System.out.println("\nArgument values after command line input:\n");
+		
+		System.out.println("Value of color: " + p.getOptionalArgument("color"));
+		System.out.println("Is present: " + p.getFlag("color"));
+		System.out.println("Description: " + p.getOptionalArgumentDescription("color"));
+		System.out.println("\nValue of age: " + p.getOptionalArgument("age"));
+		System.out.println("Is present: " + p.getFlag("age"));
+		System.out.println("Description: " + p.getOptionalArgumentDescription("age"));
+        System.out.println("\nValue of weight: " + p.getOptionalArgument("weight"));
+		System.out.println("Is present: " + p.getFlag("weight"));
+		System.out.println("Description: " + p.getOptionalArgumentDescription("weight"));
+		
+		System.out.println("\nValue of length: " + p.getPositionalArgumentValue("length"));
+		System.out.println("Value of width: " + p.getPositionalArgumentValue("width"));
+		System.out.println("Value of height: " + p.getPositionalArgumentValue("height"));
+		///////////////////////////////////////////////////////////////////////////////////////////////
+		
+        float length = Float.parseFloat(p.getPositionalArgumentValue("length"));
+        float width =  Float.parseFloat(p.getPositionalArgumentValue("width"));
+        float height = Float.parseFloat(p.getPositionalArgumentValue("height"));
+
+        float volume = length * width * height;
+        System.out.println("\nThe volume is " + volume);
     }
 }
