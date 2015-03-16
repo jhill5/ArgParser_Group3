@@ -9,7 +9,7 @@ public class ArgumentParser {
     private HashMap<String, OptionalArgument> optionalArguments = new HashMap<>();
 	private HashMap<String, String> optionalArgumentShortNames = new HashMap<>();
     public ArrayList<String> input = new ArrayList<>();
-	private enum Datatype {STRING, FLOAT, INTEGER, BOOLEAN};
+	//private enum Datatype {STRING, FLOAT, INTEGER, BOOLEAN};
     //ADD ARGUMENTS
     public void addPositionalArgument(String name) {
         positionalArguments.put(name, new PositionalArgument(name));
@@ -43,6 +43,11 @@ public class ArgumentParser {
         optionalArguments.put(name, temp);
     }
 	//GET ARGUMENT VALUES AS STRINGS
+	public String getPositionalArgumentType(String name){
+		PositionalArgument temp = new PositionalArgument(name);
+        temp = positionalArguments.get(name);
+		return temp.getDataType();
+	}
 	public String getPositionalArgumentValue(String name) {
         PositionalArgument temp = new PositionalArgument(name);
         temp = positionalArguments.get(name);
@@ -60,10 +65,21 @@ public class ArgumentParser {
         temp.setInfo(info);
         optionalArguments.put(name, temp);
     }
+	public void addPositionalArgumentDescription(String name, String info) {
+        PositionalArgument temp = new PositionalArgument(name);
+		temp = positionalArguments.get(name);
+        temp.setInfo(info);
+        positionalArguments.put(name, temp);
+    }
     //GET ARGUMENT DESCRIPTION/HELP INFORMATION
     public String getOptionalArgumentDescription(String name) {
         OptionalArgument temp = new OptionalArgument(name);
 		temp = optionalArguments.get(name);
+        return temp.getInfo();
+    }
+	public String getPositionalArgumentDescription(String name) {
+        PositionalArgument temp = new PositionalArgument(name);
+		temp = positionalArguments.get(name);
         return temp.getInfo();
     }
 	//SET OPTIONAL ARGUMENT FLAGS
@@ -85,22 +101,17 @@ public class ArgumentParser {
 		Object v = null;
         PositionalArgument temp = new PositionalArgument(name);
         temp = positionalArguments.get(name);
-        if(null != temp.type) switch (temp.type) {
-            case "INTEGER":
+        if(temp.type == "INTEGER")
                 v = Integer.parseInt(temp.value);
-                parsePositionalArgumentInt(name);
-            case "FLOAT":
-                v = Float.parseFloat(temp.value);
-                parsePositionalArgumentFloat(name);
-            case "DOUBLE":
+                //parsePositionalArgumentInt(name);
+        else if (temp.type == "FLOAT")
                 v = Double.parseDouble(temp.value);
-                parsePositionalArgumentDouble(name);
-            case "BOOLEAN":
+               // parsePositionalArgumentFloat(name);
+        else if (temp.type == "BOOLEAN")
                 v = Boolean.parseBoolean(temp.value);
-                parsePositionalArgumentBoolean(name);
-            case "STRING":
+                //parsePositionalArgumentBoolean(name);
+		else
                 v = temp.value;
-        }
         return (T) v;
     }
     
@@ -109,85 +120,19 @@ public class ArgumentParser {
 		Object v = null;
         OptionalArgument temp = new OptionalArgument(name);
         temp = optionalArguments.get(name);
-        if(null != temp.type) switch (temp.type) {
-            case "INTEGER":
+        if(temp.type == "INTEGER")
                 v = Integer.parseInt(temp.value);
-                parseOptionalArgumentInt(name);
-            case "FLOAT":
-                v = Float.parseFloat(temp.value);
-                parseOptionalArgumentFloat(name);
-            case "DOUBLE":
+                //parsePositionalArgumentInt(name);
+        else if (temp.type == "FLOAT")
                 v = Double.parseDouble(temp.value);
-                parseOptionalArgumentDouble(name);
-            case "BOOLEAN":
+               // parsePositionalArgumentFloat(name);
+        else if (temp.type == "BOOLEAN")
                 v = Boolean.parseBoolean(temp.value);
-                parseOptionalArgumentBoolean(name);
-            case "STRING":
+                //parsePositionalArgumentBoolean(name);
+		else
                 v = temp.value;
-        }
         return (T) v;
     }
-	//POSITIONAL ARGUMENT PARSERS
-	public String parsePositionalArgumentString(String name) {
-        PositionalArgument temp = new PositionalArgument(name);
-        temp = positionalArguments.get(name);
-		return temp.value;
-	}
-	
-	public int parsePositionalArgumentInt(String name) {
-        PositionalArgument temp = new PositionalArgument(name);
-        temp = positionalArguments.get(name);
-		return Integer.parseInt(temp.value);
-	}
-	
-	public float parsePositionalArgumentFloat(String name) {
-        PositionalArgument temp = new PositionalArgument(name);
-        temp = positionalArguments.get(name);
-		return Float.parseFloat(temp.value);
-	}
-	
-	public double parsePositionalArgumentDouble(String name) {
-        PositionalArgument temp = new PositionalArgument(name);
-        temp = positionalArguments.get(name);
-		return Double.parseDouble(temp.value);
-	}
-	
-	public boolean parsePositionalArgumentBoolean(String name) {
-        PositionalArgument temp = new PositionalArgument(name);
-        temp = positionalArguments.get(name);
-		return Boolean.parseBoolean(temp.value);
-	}
-	
-	//OPTIONAL ARGUMENT PARSERS
-	public String parseOptionalArgumentString(String name) {
-        OptionalArgument temp = new OptionalArgument(name);
-        temp = optionalArguments.get(name);
-		return temp.value;
-	}
-	
-	public int parseOptionalArgumentInt(String name) {
-        OptionalArgument temp = new OptionalArgument(name);
-        temp = optionalArguments.get(name);
-		return Integer.parseInt(temp.value);
-	}
-	
-	public float parseOptionalArgumentFloat(String name) {
-        OptionalArgument temp = new OptionalArgument(name);
-        temp = optionalArguments.get(name);
-		return Float.parseFloat(temp.value);
-	}
-	
-	public double parseOptionalArgumentDouble(String name) {
-        OptionalArgument temp = new OptionalArgument(name);
-        temp = optionalArguments.get(name);
-		return Double.parseDouble(temp.value);
-	}
-	
-	public boolean parseOptionalArgumentBoolean(String name) {
-        OptionalArgument temp = new OptionalArgument(name);
-        temp = optionalArguments.get(name);
-		return Boolean.parseBoolean(temp.value);
-	}
 	//ARGUMENT PARSER
 	public void parse(String str) {
 		Scanner scan = new Scanner(str);

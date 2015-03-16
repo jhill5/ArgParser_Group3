@@ -12,9 +12,6 @@ public class OptionalArgument {
 	public OptionalArgument (String n) {
 		name = n;
 	}
-	public String getName(){
-		return name;
-	}
 	public void setValue(String v){
 		value = v;
 	}
@@ -27,18 +24,12 @@ public class OptionalArgument {
 	public String getInfo(){
 		return info;
 	}
-	public void setShortName(String s) {
-		shortName = s;
-	}
-	public String getShortName() {
-		return shortName;
-	}
 	public void setDataType(String d) {
 		type = d;
 	}
-	public String getDataType() {
+	/*public String getDataType() {
 		return type;
-	}
+	}*/
 	public void setFlag(boolean f) {
 		present = f;
 	}

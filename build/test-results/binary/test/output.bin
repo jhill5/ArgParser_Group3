@@ -1,4 +1,4 @@
-	Á
+Á
 Usage: Java VolumeCalculator length width height
 Calculate the volume of a box.
 
@@ -6,7 +6,7 @@ Positional arguments:
 length: the length of the box
 width: the width of the box
 height: the height of the box
-	Á
+Á
 Usage: Java VolumeCalculator length width height
 Calculate the volume of a box.
 

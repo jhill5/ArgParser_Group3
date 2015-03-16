@@ -21,10 +21,17 @@ public class ArgumentParserTest {
 	}
 	
 	@Test
+	public void testGetDescriptionOfPotArgument() {
+		p.addPositionalArgument("length");
+		p.addPositionalArgumentDescription("length","Please input a number of length!");
+		assertEquals("Please input a number of length!",p.getPositionalArgumentDescription("length"));
+	}
+	
+	@Test
 	public void testGetValue() {
 		p.addPositionalArgument("length");
 		p.addPositionalArgumentValue("length", "7", "INTEGER");
-		assertEquals("7",p.getPositionalArgument("length"));
+		assertEquals(7,p.getPositionalArgument("length"));
 	}
 	@Test
 	public void testGetValues() {
@@ -36,10 +43,10 @@ public class ArgumentParserTest {
 		p.addPositionalArgumentValue("width", "5.2", "FLOAT");
 		p.addPositionalArgumentValue("cat", "white cat", "STRING");
 		p.addPositionalArgumentValue("rain", "true", "BOOLEAN");
-		assertEquals("7",p.getPositionalArgument("length"));
-		assertEquals("5.2",p.getPositionalArgument("width"));
+		assertEquals(7,p.getPositionalArgument("length"));
+		assertEquals(5.2,p.getPositionalArgument("width"));
 		assertEquals("white cat",p.getPositionalArgument("cat"));
-		assertEquals("true",p.getPositionalArgument("rain"));
+		assertEquals(true,p.getPositionalArgument("rain"));
 	}
 	@Test
 	public void testCheckForMissing() {
@@ -73,7 +80,7 @@ public class ArgumentParserTest {
 			p.addOptionalArgumentValue("color","red","STRING");
 			p.addOptionalArgumentValue("art","3","INTEGER");
 			p.addOptionalArgumentValue("shape","true","BOOLEAN");
-			p.addOptionalArgumentValue("symbol","???","INTEGER");
+			p.addOptionalArgumentValue("symbol","???","DOUBLE");
 		}catch(InvalidArgumentException e)
 		{
 			assertTrue(true);
@@ -95,4 +102,61 @@ public class ArgumentParserTest {
 		assertEquals("\nUsage: Java VolumeCalculator length width height\nCalculate the volume of a box.\n\nPositional arguments:\nlength: the length of the box\nwidth: the width of the box\nheight: the height of the box",p.showHelp());
 	}
 	
+	@Test
+	public void testGetArgumentValue(){
+		p.addPositionalArgument("length");
+		p.addPositionalArgumentValue("length","7","STRING");
+		assertEquals("7",p.getPositionalArgumentValue("length"));
+	}
+	@Test
+	public void testOptionalValue(){
+		p.addOptionalArgument("type");
+		p.addOptionalArgumentValue("type","box","STRING");
+		assertEquals("box",p.getOptionalArgumentValue("type"));
+	}
+	
+	@Test
+	public void testGetTheFlag(){
+		p.addOptionalArgument("type");
+		p.setFlag("type",true);
+		assertEquals(true,p.getFlag("type"));
+	}
+	
+	@Test
+	public void testGetOptionalArgument(){
+		p.addOptionalArgumentValue("type","5.2","FLOAT");
+		p.addOptionalArgumentValue("color","red","STRING");
+		p.addOptionalArgumentValue("art","3","INTEGER");
+		p.addOptionalArgumentValue("shape","true","BOOLEAN");
+		assertEquals(5.2,p.getOptionalArgument("type"));
+		assertEquals("red",p.getOptionalArgument("color"));
+		assertEquals(3,p.getOptionalArgument("art"));
+		assertEquals(true,p.getOptionalArgument("shape"));
+	}
+	
+	@Test
+	public void testContainOptionalArgument(){
+		p.addOptionalArgument("type");
+		p.addOptionalArgumentValue("type","5.2","FLOAT");
+		p.parse("--type box -t sphere");
+	}
+	
+	@Test 
+	public void testGetArgumentDataType(){
+		p.addPositionalArgument("length");
+		p.addPositionalArgumentValue("length","7","STRING");
+		assertEquals("STRING",p.getPositionalArgumentType("length"));
+	}
+	
+	@Test
+	public void testUnknowType(){
+		p.addOptionalArgument("type");
+		p.addOptionalArgumentValue("type","5.2","FLOAT");
+		try{
+			p.parse("--shape box -s sphere");
+		}catch(UnknownArgumentException e)
+		{
+			assertTrue(true);
+		}
+	}
 }

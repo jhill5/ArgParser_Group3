@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="edu.jsu.mcis.ArgumentParserTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2015-03-15T20:05:30" hostname="Yi-PC" time="0.031">
+<testsuite name="edu.jsu.mcis.ArgumentParserTest" tests="16" skipped="0" failures="0" errors="0" timestamp="2015-03-16T01:53:23" hostname="Yi-PC" time="0.035">
   <properties/>
-  <testcase name="testGetValue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.003"/>
+  <testcase name="testOptionalValue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.003"/>
+  <testcase name="testGetOptionalArgument" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetValue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.001"/>
   <testcase name="testCheckForMissing" classname="edu.jsu.mcis.ArgumentParserTest" time="0.002"/>
-  <testcase name="testCheckForInvalidArguments" classname="edu.jsu.mcis.ArgumentParserTest" time="0.002"/>
+  <testcase name="testGetTheFlag" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testContainOptionalArgument" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testCheckForInvalidArguments" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetDescriptionOfPotArgument" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testUnknowType" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testCheckForUnrecognisedArguments" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testInvalidArgumentException" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
+  <testcase name="testGetArgumentDataType" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testGetValues" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <testcase name="testGetDescriptionOfOptArgument" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
-  <testcase name="testHelpInfomation" classname="edu.jsu.mcis.ArgumentParserTest" time="0.021"/>
+  <testcase name="testHelpInfomation" classname="edu.jsu.mcis.ArgumentParserTest" time="0.023"/>
+  <testcase name="testGetArgumentValue" classname="edu.jsu.mcis.ArgumentParserTest" time="0.0"/>
   <system-out><![CDATA[
 Usage: Java VolumeCalculator length width height
 Calculate the volume of a box.
