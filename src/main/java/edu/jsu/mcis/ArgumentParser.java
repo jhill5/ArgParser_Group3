@@ -5,12 +5,17 @@ import java.io.*;
 
 public class ArgumentParser {
 	//VARIABLES
-    private HashMap<String, PositionalArgument> positionalArguments = new HashMap<>();
-    private HashMap<String, OptionalArgument> optionalArguments = new HashMap<>();
-	private HashMap<String, String> optionalArgumentShortNames = new HashMap<>();
+    private Map<String, PositionalArgument> positionalArguments;
+    private Map<String, OptionalArgument> optionalArguments;
+	private Map<String, String> optionalArgumentShortNames;
     public ArrayList<String> input = new ArrayList<>();
 	//private enum Datatype {STRING, FLOAT, INTEGER, BOOLEAN};
     //ADD ARGUMENTS
+	public ArgumentParser(){
+		positionalArguments = new HashMap<>();
+		optionalArguments = new HashMap<>();
+		optionalArgumentShortNames = new HashMap<>();
+	}
     public void addPositionalArgument(String name) {
         positionalArguments.put(name, new PositionalArgument(name));
     }
@@ -21,29 +26,29 @@ public class ArgumentParser {
 		optionalArgumentShortNames.put(shortName, name);
     }
     //ADD ARGUMENT VALUES AND DATATYPES
-    public void addPositionalArgumentValue(String name, String value, String type) {
+    public void addPositionalArgumentValue(String name, String value, Argument.DataType type) {
         PositionalArgument temp = new PositionalArgument(name);
         temp.setValue(value);
         temp.setDataType(type);
         positionalArguments.put(name,temp);
     }
-    public void addPositionalArgumentValue(String name,String type) {
+    public void addPositionalArgumentValue(String name,Argument.DataType type) {
         PositionalArgument temp = new PositionalArgument(name);
         temp.setDataType(type);
         positionalArguments.put(name,temp);
     }
 	
-    public void addOptionalArgumentValue(String name, String value, String type) {
+    public void addOptionalArgumentValue(String name, String value, Argument.DataType type) {
         OptionalArgument temp = new OptionalArgument(name);
         temp.setValue(value);
         temp.setDataType(type);
-		if(type != "STRING") {
+		if(type != Argument.DataType.STRING) {
 			checkForInvalidArguments(value);
 		}
         optionalArguments.put(name, temp);
     }
 	//GET ARGUMENT VALUES AS STRINGS
-	public String getPositionalArgumentType(String name){
+	public Argument.DataType getPositionalArgumentType(String name){
 		PositionalArgument temp = new PositionalArgument(name);
         temp = positionalArguments.get(name);
 		return temp.getDataType();
@@ -101,13 +106,13 @@ public class ArgumentParser {
 		Object v = null;
         PositionalArgument temp = new PositionalArgument(name);
         temp = positionalArguments.get(name);
-        if(temp.type == "INTEGER")
+        if(temp.type == Argument.DataType.INTEGER)
                 v = Integer.parseInt(temp.value);
                 //parsePositionalArgumentInt(name);
-        else if (temp.type == "FLOAT")
+        else if (temp.type == Argument.DataType.FLOAT)
                 v = Double.parseDouble(temp.value);
                // parsePositionalArgumentFloat(name);
-        else if (temp.type == "BOOLEAN")
+        else if (temp.type == Argument.DataType.BOOLEAN)
                 v = Boolean.parseBoolean(temp.value);
                 //parsePositionalArgumentBoolean(name);
 		else
@@ -120,13 +125,13 @@ public class ArgumentParser {
 		Object v = null;
         OptionalArgument temp = new OptionalArgument(name);
         temp = optionalArguments.get(name);
-        if(temp.type == "INTEGER")
+        if(temp.type == Argument.DataType.INTEGER)
                 v = Integer.parseInt(temp.value);
                 //parsePositionalArgumentInt(name);
-        else if (temp.type == "FLOAT")
+        else if (temp.type == Argument.DataType.FLOAT)
                 v = Double.parseDouble(temp.value);
                // parsePositionalArgumentFloat(name);
-        else if (temp.type == "BOOLEAN")
+        else if (temp.type == Argument.DataType.BOOLEAN)
                 v = Boolean.parseBoolean(temp.value);
                 //parsePositionalArgumentBoolean(name);
 		else

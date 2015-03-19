@@ -30,7 +30,7 @@ public class ArgumentParserTest {
 	@Test
 	public void testGetValue() {
 		p.addPositionalArgument("length");
-		p.addPositionalArgumentValue("length", "7", "INTEGER");
+		p.addPositionalArgumentValue("length", "7", Argument.DataType.INTEGER);
 		assertEquals(7,p.getPositionalArgument("length"));
 	}
 	@Test
@@ -39,10 +39,10 @@ public class ArgumentParserTest {
 		p.addPositionalArgument("width");
 		p.addPositionalArgument("cat");
 		p.addPositionalArgument("rain");
-		p.addPositionalArgumentValue("length", "7", "INTEGER");
-		p.addPositionalArgumentValue("width", "5.2", "FLOAT");
-		p.addPositionalArgumentValue("cat", "white cat", "STRING");
-		p.addPositionalArgumentValue("rain", "true", "BOOLEAN");
+		p.addPositionalArgumentValue("length", "7", Argument.DataType.INTEGER);
+		p.addPositionalArgumentValue("width", "5.2", Argument.DataType.FLOAT);
+		p.addPositionalArgumentValue("cat", "white cat", Argument.DataType.STRING);
+		p.addPositionalArgumentValue("rain", "true", Argument.DataType.BOOLEAN);
 		assertEquals(7,p.getPositionalArgument("length"));
 		assertEquals(5.2,p.getPositionalArgument("width"));
 		assertEquals("white cat",p.getPositionalArgument("cat"));
@@ -76,11 +76,10 @@ public class ArgumentParserTest {
 	@Test
 	public void testCheckForInvalidArguments(){
 		try{
-			p.addOptionalArgumentValue("Type","5.2","FLOAT");
-			p.addOptionalArgumentValue("color","red","STRING");
-			p.addOptionalArgumentValue("art","3","INTEGER");
-			p.addOptionalArgumentValue("shape","true","BOOLEAN");
-			p.addOptionalArgumentValue("symbol","???","DOUBLE");
+			p.addOptionalArgumentValue("Type","5.2",Argument.DataType.FLOAT);
+			p.addOptionalArgumentValue("color","red",Argument.DataType.STRING);
+			p.addOptionalArgumentValue("art","3",Argument.DataType.INTEGER);
+			p.addOptionalArgumentValue("shape","true",Argument.DataType.BOOLEAN);
 		}catch(InvalidArgumentException e)
 		{
 			assertTrue(true);
@@ -89,7 +88,7 @@ public class ArgumentParserTest {
 	@Test
 	public void testCheckForUnrecognisedArguments(){
 		p.addPositionalArgument("length");
-		p.addPositionalArgumentValue("length", "INTEGER");
+		p.addPositionalArgumentValue("length", Argument.DataType.INTEGER);
 		try{
 			p.parse("7");
 		}catch(UnrecognisedArgumentException e){
@@ -105,13 +104,13 @@ public class ArgumentParserTest {
 	@Test
 	public void testGetArgumentValue(){
 		p.addPositionalArgument("length");
-		p.addPositionalArgumentValue("length","7","STRING");
+		p.addPositionalArgumentValue("length","7",Argument.DataType.STRING);
 		assertEquals("7",p.getPositionalArgumentValue("length"));
 	}
 	@Test
 	public void testOptionalValue(){
 		p.addOptionalArgument("type");
-		p.addOptionalArgumentValue("type","box","STRING");
+		p.addOptionalArgumentValue("type","box",Argument.DataType.STRING);
 		assertEquals("box",p.getOptionalArgumentValue("type"));
 	}
 	
@@ -124,10 +123,10 @@ public class ArgumentParserTest {
 	
 	@Test
 	public void testGetOptionalArgument(){
-		p.addOptionalArgumentValue("type","5.2","FLOAT");
-		p.addOptionalArgumentValue("color","red","STRING");
-		p.addOptionalArgumentValue("art","3","INTEGER");
-		p.addOptionalArgumentValue("shape","true","BOOLEAN");
+		p.addOptionalArgumentValue("type","5.2",Argument.DataType.FLOAT);
+		p.addOptionalArgumentValue("color","red",Argument.DataType.STRING);
+		p.addOptionalArgumentValue("art","3",Argument.DataType.INTEGER);
+		p.addOptionalArgumentValue("shape","true",Argument.DataType.BOOLEAN);
 		assertEquals(5.2,p.getOptionalArgument("type"));
 		assertEquals("red",p.getOptionalArgument("color"));
 		assertEquals(3,p.getOptionalArgument("art"));
@@ -137,21 +136,21 @@ public class ArgumentParserTest {
 	@Test
 	public void testContainOptionalArgument(){
 		p.addOptionalArgument("type");
-		p.addOptionalArgumentValue("type","5.2","FLOAT");
+		p.addOptionalArgumentValue("type","5.2",Argument.DataType.FLOAT);
 		p.parse("--type box -t sphere");
 	}
 	
 	@Test 
 	public void testGetArgumentDataType(){
 		p.addPositionalArgument("length");
-		p.addPositionalArgumentValue("length","7","STRING");
-		assertEquals("STRING",p.getPositionalArgumentType("length"));
+		p.addPositionalArgumentValue("length","7",Argument.DataType.STRING);
+		assertEquals(Argument.DataType.STRING,p.getPositionalArgumentType("length"));
 	}
 	
 	@Test
 	public void testUnknowType(){
 		p.addOptionalArgument("type");
-		p.addOptionalArgumentValue("type","5.2","FLOAT");
+		p.addOptionalArgumentValue("type","5.2",Argument.DataType.FLOAT);
 		try{
 			p.parse("--shape box -s sphere");
 		}catch(UnknownArgumentException e)

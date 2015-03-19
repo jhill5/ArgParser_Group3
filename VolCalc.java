@@ -13,13 +13,13 @@ public class VolCalc {
         p.parse(read);
 		
         p.addOptionalArgument("color");
-        p.addOptionalArgumentValue("color", "red", "STRING");
+        p.addOptionalArgumentValue("color", "red", Argument.DataType.STRING);
 		p.addOptionalArgumentDescription("color", "color's value is a string.");
         p.addOptionalArgument("age");
-        p.addOptionalArgumentValue("age", "22", "INTEGER");
+        p.addOptionalArgumentValue("age", "22", Argument.DataType.INTEGER);
 		p.addOptionalArgumentDescription("age", "age's value is an integer.");
         p.addOptionalArgument("weight");
-        p.addOptionalArgumentValue("weight", "160.5", "FLOAT");
+        p.addOptionalArgumentValue("weight", "160.5", Argument.DataType.FLOAT);
 		p.addOptionalArgumentDescription("weight", "weight's value is a float.");
 		
         p.addPositionalArgument("length");
